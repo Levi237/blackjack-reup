@@ -1,0 +1,206 @@
+html {
+    height: 100%;
+    background-color: rgb(11, 73, 11);
+    background-image: radial-gradient( rgb(11, 73, 11),  rgb(12, 90, 12), #000);
+    background-size: cover;
+}
+    /* body {
+        position: relative;
+    } */
+/* DISPLAY WINDOW COUNTER */
+.big-box {
+    position: absolute;
+    right: 0;
+    z-index: 100;
+    border-radius: 5%;
+    border: none;
+    box-shadow: 5px 5px 5px 0 #000;
+}
+.box {
+    background-color: rgba(109, 10, 10, 0.9);
+    position: relative;
+    top: 0;
+    z-index: 1;
+    float: right;
+    width: 4.2rem;
+    height: 5rem;
+}
+#box-left {
+    text-align: left;
+    border-top-left-radius: 5%;
+    border-bottom-left-radius: 5%;
+    border-right: 0;
+    border-left: 3px solid black;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+}
+#box-right {
+    text-align: right;
+    border-top-right-radius: 5%;
+    border-bottom-right-radius: 5%;
+    border-left: 0;
+    border-right: 3px solid black;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+}
+/* BUTTON ATTRIBUTES */
+.button {
+    float: left;
+    width: 80px;
+    height: 80px;
+    margin: 5px 8px;
+    font-size: 24px;
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    cursor: pointer;
+    outline: none;
+    color: #000;
+    background-image: radial-gradient( rgb(253, 190, 44), rgb(78, 57, 6));
+    background-color: rgb(253, 190, 44);
+    border: 1px solid rgb(78, 57, 6);
+    border-radius: 100%; 
+    box-shadow: 0 5px 5px 0 #000;
+}
+.button:hover {
+    background-image: radial-gradient( rgb(109, 79, 8), rgb(253, 190, 44));
+    background-color:rgb(190, 154, 59);
+    transform: scale(1.1);
+}  
+.button:active {
+    background-color: rgb(253, 190, 44);
+    box-shadow: 0 9px 10px 0 #000;
+    transform: translateY(4px);
+}
+#button-holder {
+    width: 288px;
+    margin-right: 88px;
+    margin-left: 88px;
+    float: left;
+}
+#buy-button {
+    visibility: hidden;
+    position: absolute;
+    z-index: 100000;
+    width: 264px;
+    margin: 50px 100px;
+}
+/* GAME BOARD */
+header {
+    width: 464px;
+    height: 6rem;
+    margin: 3rem auto 1rem auto;      
+}
+footer {
+    width: 464px;
+    height: 6rem;
+    margin: 1rem auto 1rem auto;   
+}
+#table-cover {
+    position: absolute;
+    top: 1;
+
+    /* right: 40%; */
+    z-index: 5000;
+    width: 464px;
+    margin-top: 66px;
+    margin-left: auto; 
+    margin-right: auto; 
+    padding: auto;  
+    text-align: center;
+}
+#game-table {
+    position: relative;
+    width: 464px;
+    height: 16rem;
+    margin: 1rem auto 1rem auto;   
+}
+#player {
+    width: auto;
+    padding-top: 1em;
+    position: relative;
+}
+#dealer{
+    width: auto;
+    padding-bottom: 1em;
+}
+
+/* CONTENT */
+element {
+    position: relative;
+    z-index: 0;
+}
+h1 {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    font-size: 4em;
+    text-align: center;
+    font-family: 'Berkshire Swash', Georgia, 'Times New Roman', Times, serif;
+    text-shadow: #000;
+}
+#alert {
+    font-size: 40px;
+}
+.fade {
+    text-align: center;
+    -webkit-animation: fadein 5s; 
+            animation: fadein 5s;
+}
+.fade2 {
+    text-align: center;
+    -webkit-animation: fadein 7s; 
+            animation: fadein 7s;
+}
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+h2 {
+    display: block;
+    font-size: 1.5em;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-block-start: 0.3em;
+    margin-block-end: 0.3em;
+    margin-inline-start: 5px;
+    margin-inline-end: 5px;
+    font-weight: bold;
+}
+h3 {
+    color: rgb(48, 0, 0);
+    font-size: 63px;
+    font-family: 'Berkshire Swash', Georgia, 'Times New Roman', Times, serif;
+    text-shadow:  10px 15px rgb(56, 56, 56, .5); 
+}
+.transitOpen {
+    transition: 5s;
+    transition-timing-function: ease;
+    position: inherti;
+    z-index: 10;
+}
+.slide {
+    position: relative;
+    top: -500px;
+    width: 100px;
+    height: 100px;
+    transition: transform 0.4s;
+    -webkit-animation: slide 0.5s forwards;
+    animation: slide 0.5s forwards;
+}
+    /* #alert {
+        position: relative;
+        left: -500px;
+
+        transition-timing-function: ease;
+        transition: transform 0.4s;
+        -webkit-animation: slide 0.5s forwards;
+        animation: slide 0.5s forwards;
+    } */
+
+@-webkit-keyframes slide {
+    100% { top: 0; }
+}
+
+@keyframes slide {
+    100% { top: 0; }
+}
+
