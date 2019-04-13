@@ -4,8 +4,7 @@ console.log("GOOD LUCK!")
 
 
 //-->   END GAME PSEUDOCODE
-//buttons need to be used only when necessary
-//intervalTimer needed to slow down card display
+//intervalTimer needed for dealer, how to break up each card draw?
 //opening page?
 //restart option
 
@@ -20,11 +19,10 @@ class Player {
     }
 }
 const dealer = {
-    name: "Bob",
     hand: [],
 }
 
-let player = new Player("Fauxman");  //--> edit out later into prompt?
+let player = new Player("Fauxman");  //--> edit out later into prompt with name display
 let deck = [];
 let shuffledDeck = [];
 let playerFinalScore = 0;
@@ -38,9 +36,8 @@ const getSum = (total, num) => {return total + num;}
 const playButton = document.getElementById('play-button');
 const hitButton = document.getElementById('hit-button');
 // const splitButton = document.getElementById('split-button')  //--> change rule so dealer quits at 17
-// const doubleButton = document.getElementById('double-button')  //--> change rule so dealer quits at 17
-// const splitButton = document.getElementById('split-button')  //--> Double Down
-// const restartButton = document.getElementById('restart-button')  //--> Restart
+// const doubleButton = document.getElementById('double-button')  //--> Double Down
+// const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 const stayButton = document.getElementById('stay-button');
 const buyButton = document.getElementById('buy-button');
 //---------------------->    START GAME EVENT LISTENER
@@ -59,8 +56,7 @@ playButton.addEventListener('click', () => {
         showMoney()
     } else {
         buyIn()
-        console.log("you are out of money, would you like to buy in for another 10?")
-        //RESET GAME     
+        console.log("you are out of money, would you like to buy in for another 10?") 
     }     
 })
 //---------------------->    HIT BUTTON
@@ -145,7 +141,6 @@ const clearField = () => {
 }
 //---------------------->    BUILD A DECK
 const makeDeck = () => {
-    // const cardWord = "card";
     const suits = ["spades", "hearts", "diamonds", "clubs"];
     const face = ["Ace", "02", "03", "04", "05", "06", "07", "08", "09", "10", "Jack", "Queen", "King"];
     for (let s = 0; s < suits.length; s++){
