@@ -34,7 +34,7 @@ const getSum = (total, num) => {return total + num;}
 const playButton = document.getElementById('play-button');
 const hitButton = document.getElementById('hit-button');
 // const splitButton = document.getElementById('split-button')  //--> change rule so dealer quits at 17
-// const doubleButton = document.getElementById('double-button')  //--> Double Down
+const doubleButton = document.getElementById('double-button')  //--> Double Down
 // const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 const stayButton = document.getElementById('stay-button');
 const buyButton = document.getElementById('buy-button');
@@ -42,6 +42,8 @@ const buyButton = document.getElementById('buy-button');
 playButton.addEventListener('click', () => {
     displayReset();
     stayButton.removeAttribute('disabled');
+    doubleButton.removeAttribute('disabled');
+    hitButton.removeAttribute('disabled');//dd
     alert.innerText = "";
     if (player.chips !== 0) {
         player.chips = player.chips - 1;
@@ -56,11 +58,32 @@ playButton.addEventListener('click', () => {
         buyIn()
     }     
 })
+//---------------------->    DOUBLE DOWN BUTTON
+doubleButton.addEventListener('click', () => {
+    // doubleDown();
+    hitButton.setAttribute('disabled', true);
+    stayButton.setAttribute('disabled', true);
+    hitMe();
+    displayPlayerCard();
+    handValue();
+    dealerAI();
+    callHand();
+    doubleDown();  // why doesn't this work?
+    showMoney();
+    doubleButton.setAttribute('disabled', true);
+})
+
+//---------------------->    DOUBLE DOWN
+const doubleDown = () => {
+    if (playerFinalScore > dealerFinalScore && playerFinalScore <= 21){
+        player.chips += 2;
+    }
+}
+
 //---------------------->    HIT BUTTON
 hitButton.addEventListener('click', () => {
     hitMe();
     displayPlayerCard();
-    // handValue(); //
     showMoney(); 
 })
 //---------------------->    STAY BUTTON
@@ -174,6 +197,9 @@ const dealHand = () => {
     player.hand.push(shuffledDeck[0]);
         shuffledDeck.splice(0, 1);
 }
+
+
+
 //---------------------->    HIT ME - deal another card  -->  HIT button
 const hitMe = () => {
     let card = shuffledDeck.shift();
