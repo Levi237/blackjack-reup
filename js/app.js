@@ -60,26 +60,17 @@ playButton.addEventListener('click', () => {
 })
 //---------------------->    DOUBLE DOWN BUTTON
 doubleButton.addEventListener('click', () => {
-    // doubleDown();
-    hitButton.setAttribute('disabled', true);
-    stayButton.setAttribute('disabled', true);
+    player.chips = player.chips - 1;
     hitMe();
     displayPlayerCard();
     handValue();
     dealerAI();
-    callHand();
-    doubleDown();  // why doesn't this work?
-    showMoney();
+    doubleDown(); // why doesn't this work?
+    showMoney(); 
     doubleButton.setAttribute('disabled', true);
+    hitButton.setAttribute('disabled', true);
+    stayButton.setAttribute('disabled', true);
 })
-
-//---------------------->    DOUBLE DOWN
-const doubleDown = () => {
-    if (playerFinalScore > dealerFinalScore && playerFinalScore <= 21){
-        player.chips += 2;
-    }
-}
-
 //---------------------->    HIT BUTTON
 hitButton.addEventListener('click', () => {
     hitMe();
@@ -198,8 +189,6 @@ const dealHand = () => {
         shuffledDeck.splice(0, 1);
 }
 
-
-
 //---------------------->    HIT ME - deal another card  -->  HIT button
 const hitMe = () => {
     let card = shuffledDeck.shift();
@@ -250,6 +239,18 @@ document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r
         }
     }
 }
+
+//---------------------->    DOUBLE DOWN
+const doubleDown = () => {  //--> why doesn't this work?
+
+    if (playerFinalScore <= 21 && playerFinalScore > dealerFinalScore || playerFinalScore <= 21 &&  dealerFinalScore > 21) {
+        player.chips += 3;
+    }
+    if (playerFinalScore === dealerFinalScore){
+        player.chips += 1;
+    }
+    callHand();
+};
 
 //---------------------->    PLAY HAND  -->  STAY button
 const callHand = () => {
