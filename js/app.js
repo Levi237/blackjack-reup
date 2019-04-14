@@ -60,7 +60,7 @@ playButton.addEventListener('click', () => {
 hitButton.addEventListener('click', () => {
     hitMe();
     displayPlayerCard();
-    handValue(); //
+    handValue();
     showMoney(); 
 })
 //---------------------->    STAY BUTTON
@@ -204,14 +204,14 @@ const handValue = () => {
 //---------------------->    AI - DEALER HIT  -->  STAY button
 const  dealerAI = () => {
 document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r${dealer.hand[0].face}`;
-    while (dealerFinalScore < playerFinalScore && playerFinalScore <= 21) {
+    while (dealerFinalScore < playerFinalScore && playerFinalScore <= 21 || dealerFinalScore < 12 && dealerFinalScore === playerFinalScore) {
         let card = shuffledDeck.shift();
         dealer.hand.unshift(card);
         dealerCall.unshift(card.value);
         dealerFinalScore = dealerCall.reduce(getSum);
         displayDealerCard();    
     }
-    for (let d = 0; d < dealer.hand.length; d++) {  //---------------------->    IDK WHY THIS WORKS YET BUT IT DOES?
+    for (let d = 0; d < dealer.hand.length; d++) { 
         if (dealer.hand[d].face == "Ace" && dealerFinalScore > 21) {
             dealerFinalScore = dealerFinalScore - 10;
             if (dealerFinalScore < playerFinalScore && playerFinalScore <= 21){
@@ -244,8 +244,6 @@ const callHand = () => {
         alert.innerText = "Push";
     } else if (playerFinalScore < dealerFinalScore && dealerFinalScore <= 21) {
         alert.innerText = "House Wins";  
-    } else if (playerFinalScore > 21) {
-        alert.innerText = "Bust";  
     }
     //-------->  anything else need to go in here?
 };
