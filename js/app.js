@@ -60,12 +60,15 @@ playButton.addEventListener('click', () => {
 hitButton.addEventListener('click', () => {
     hitMe();
     displayPlayerCard();
-    showMoney()
+    handValue(); //
+    showMoney(); 
 })
 //---------------------->    STAY BUTTON
 stayButton.addEventListener('click', () => {
     handValue();
-    dealerAI();
+    // setTimeout(function() {
+        dealerAI();
+    // },200);
     callHand();
     showMoney();
     stayButton.setAttribute('disabled', true);
@@ -96,14 +99,13 @@ const displayDeal = () => {
             alert.innerText = "21 blackjack!";
         }
 }
+
 //---------------------->    SHOW HIT ME CARD
 const displayPlayerCard = () => {
     document.getElementById("blankPlayer").insertAdjacentHTML("beforebegin", `<element class="slide card ${player.hand[0].suit} r${player.hand[0].face}"></element>`);
 }
 const displayDealerCard = () => {
-    // setTimeout(function() {
     document.getElementById("blankDealer").insertAdjacentHTML("beforebegin", `<element class="slide card ${dealer.hand[0].suit} r${dealer.hand[0].face}"></element>`);
-    // },400);  
 }
 //---------------------->    RESET CARD DISPLAY
 const displayReset = () => {
@@ -194,6 +196,10 @@ const handValue = () => {
             playerFinalScore = playerFinalScore - 10;
         } 
     }
+    if (playerFinalScore > 21) {
+        alert.innerText = "Bust";
+       stayButton.setAttribute('disabled', true);
+       }
 }
 //---------------------->    AI - DEALER HIT  -->  STAY button
 const  dealerAI = () => {
@@ -203,7 +209,7 @@ document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r
         dealer.hand.unshift(card);
         dealerCall.unshift(card.value);
         dealerFinalScore = dealerCall.reduce(getSum);
-        displayDealerCard();
+        displayDealerCard();    
     }
     for (let d = 0; d < dealer.hand.length; d++) {  //---------------------->    IDK WHY THIS WORKS YET BUT IT DOES?
         if (dealer.hand[d].face == "Ace" && dealerFinalScore > 21) {
@@ -235,7 +241,7 @@ const callHand = () => {
         alert.innerText = "You Win!";
     } else if (playerFinalScore <= 21 && playerFinalScore === dealerFinalScore) {
         player.chips++;
-        alert.innerText = "Its a tie.";
+        alert.innerText = "Push";
     } else if (playerFinalScore < dealerFinalScore && dealerFinalScore <= 21) {
         alert.innerText = "House Wins";  
     } else if (playerFinalScore > 21) {
