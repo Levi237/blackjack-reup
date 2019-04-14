@@ -1,5 +1,3 @@
-console.log("WELCOME TO BLACKJACK!  YOU HAVE 10 CHIPS TO START")
-console.log("GOOD LUCK!")
 //--> BLACK JACK GAME
 
 
@@ -56,7 +54,6 @@ playButton.addEventListener('click', () => {
         showMoney()
     } else {
         buyIn()
-        console.log("you are out of money, would you like to buy in for another 10?") 
     }     
 })
 //---------------------->    HIT BUTTON
@@ -190,7 +187,6 @@ const handValue = () => {
     for (let d = 0; d < dealer.hand.length; d++){
         dealerCall.push(dealer.hand[d].value);
         }
-    // const getSum = (total, num) => {return total + num;}
         playerFinalScore = playerCall.reduce(getSum);
         dealerFinalScore = dealerCall.reduce(getSum);
     for (let i = 0; i < player.hand.length; i++){
@@ -221,8 +217,6 @@ document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r
             }
         }
     }
-    console.log("                                               DEALER FINAL SCORE: " + dealerFinalScore)
-    console.log("PLAYER FINAL SCORE: " + playerFinalScore)
 }
 
 //---------------------->    PLAY HAND  -->  STAY button
@@ -238,7 +232,6 @@ const callHand = () => {
         }
     } else if (playerFinalScore <= 21 && playerFinalScore > dealerFinalScore) {
         player.chips += 3;
-        console.log(alert)
         alert.innerText = "You Win!";
     } else if (playerFinalScore <= 21 && playerFinalScore === dealerFinalScore) {
         player.chips++;
@@ -248,14 +241,12 @@ const callHand = () => {
     } else if (playerFinalScore > 21) {
         alert.innerText = "Bust";  
     }
-    console.log("You now have: " +  player.chips + " chips")
-    
     //-------->  anything else need to go in here?
 };
+
 //---------------------->       BUY IN
 const buyIn = () => {
     if (player.chips === 0) {
-        console.log("click")
         document.querySelector('#buy-button').style.visibility = "visible"
     }   
 }
