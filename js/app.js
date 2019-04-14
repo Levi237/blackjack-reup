@@ -60,7 +60,7 @@ playButton.addEventListener('click', () => {
 hitButton.addEventListener('click', () => {
     hitMe();
     displayPlayerCard();
-    handValue();
+    // handValue(); //
     showMoney(); 
 })
 //---------------------->    STAY BUTTON
@@ -196,10 +196,10 @@ const handValue = () => {
             playerFinalScore = playerFinalScore - 10;
         } 
     }
-    if (playerFinalScore > 21) {
-        alert.innerText = "Bust";
-       stayButton.setAttribute('disabled', true);
-       }
+    if (playerFinalScore > 21) { //
+        alert.innerText = "Bust"; //
+       stayButton.setAttribute('disabled', true); //
+       } //
 }
 //---------------------->    AI - DEALER HIT  -->  STAY button
 const  dealerAI = () => {
@@ -211,7 +211,7 @@ document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r
         dealerFinalScore = dealerCall.reduce(getSum);
         displayDealerCard();    
     }
-    for (let d = 0; d < dealer.hand.length; d++) { 
+    for (let d = 0; d < dealer.hand.length; d++) {  //---------------------->    IDK WHY THIS WORKS YET BUT IT DOES?
         if (dealer.hand[d].face == "Ace" && dealerFinalScore > 21) {
             dealerFinalScore = dealerFinalScore - 10;
             if (dealerFinalScore < playerFinalScore && playerFinalScore <= 21){
