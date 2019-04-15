@@ -19,6 +19,9 @@ class Player {
 const dealer = {
     hand: [],
 }
+const playerSplitHand = {
+    hand: []
+}
 
 let player = new Player("Fauxman");  //--> edit out later into prompt with name display
 let deck = [];
@@ -33,11 +36,12 @@ const getSum = (total, num) => {return total + num;}
 //---------------------->   BUTTONS
 const playButton = document.getElementById('play-button');
 const hitButton = document.getElementById('hit-button');
-const splitButton = document.getElementById('split-button')  //--> change rule so dealer quits at 17
-const doubleButton = document.getElementById('double-button')  //--> Double Down
-// const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
+const doubleButton = document.getElementById('double-button');
+const splitButton = document.getElementById('split-button');  //--> change rule so dealer quits at 17
 const stayButton = document.getElementById('stay-button');
 const buyButton = document.getElementById('buy-button');
+// const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
+
 //---------------------->    START GAME EVENT LISTENER
 playButton.addEventListener('click', () => {
     displayReset();
@@ -81,9 +85,26 @@ hitButton.addEventListener('click', () => {
 })
 //---------------------->    SPLIT BUTTON
 splitButton.addEventListener('click', () => {
+
+    clearSplitBtns();
     splitHand();
-    document.querySelector('#split-button').style.display = "none";
+    
+
 })
+const splitHand = () => {
+    playerSplitHand.hand.unshift(player.hand[1]);
+    console.log(playerSplitHand);
+    player.hand.pop()
+    // push hand
+}
+
+const clearSplitBtns = () => {
+    document.querySelector('#split-button').style.display = "none";
+    document.querySelector('#split-hand').style.display = "block";
+
+}
+
+
 //-------------------------------------------->    SPLIT PSEUDOCODE
 // if [0].value === [1].value
 // player.handS[Split[0].push and player.hand[0]splice
@@ -94,26 +115,13 @@ const splitDetector = () => {
     let button = document.querySelector('#split-button');
     if (player.hand[0].value === player.hand[1].value){
         button.style.display = "block";
-        // document.querySelector('#split-button').style.display = "none";
     }
     
 }
-// splitDetector()
-//---------------------->    SPLIT HAND
-const splitHand = () => {
-    document.querySelector('#split-hand').style.display = "block";
-    // let leftSplit = document.getElementById('player');
-    // leftSplit.insertAdjacentHTML("afterend", `
-    // <div id="split-hand">
-    //     <div class="player">
-    //         <element id="blankSplit" class="player"></element>
-    //         <element class="transitOpen fade card back-red"></element>
-    //         <element class="transitOpen fade card back-red"></element>
-    //     </div>
-    // </div>
-    // `)
-}
 
+// const thirdSplitDetector = () => {}
+// thirdSplitDetector()
+//---------------------->    SPLIT HAND
 
 const eraseSplit = () => {
     document.querySelector('#split-hand').style.display = "none";
