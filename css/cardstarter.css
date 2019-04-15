@@ -1,4 +1,21 @@
 @charset "UTF-8";
+/* .split {
+  position: absolute;
+  padding-left: 5px;
+}
+.split:first-child {
+  
+  transform: translateX(10px);
+
+}
+.split:nth-child(n){
+  transform: translateX(50px);
+
+
+}
+.split:last-child {
+  transform: translateX(100px);
+} */
 .card {
   box-sizing: border-box;
   display: inline-block;

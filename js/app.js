@@ -33,7 +33,7 @@ const getSum = (total, num) => {return total + num;}
 //---------------------->   BUTTONS
 const playButton = document.getElementById('play-button');
 const hitButton = document.getElementById('hit-button');
-// const splitButton = document.getElementById('split-button')  //--> change rule so dealer quits at 17
+const splitButton = document.getElementById('split-button')  //--> change rule so dealer quits at 17
 const doubleButton = document.getElementById('double-button')  //--> Double Down
 // const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 const stayButton = document.getElementById('stay-button');
@@ -77,6 +77,32 @@ hitButton.addEventListener('click', () => {
     displayPlayerCard();
     showMoney(); 
 })
+//---------------------->    SPLIT BUTTON
+splitButton.addEventListener('click', () => {
+    prompt('this button does not work yet');
+})
+//-------------------------------------------->    SPLIT PSEUDOCODE
+// if value === value
+// player.handS[Split[0].push and player.hand[0]splice
+// hitMe() to each hand
+// need to be able to separate buttons or add new buttons for second hand
+// need to make space for new cards
+//---------------------->    SPLIT HAND
+const split = () => {
+    let leftSplit = document.getElementById('player');
+    leftSplit.insertAdjacentHTML(`
+            <div id="player-split" class="center">
+                <div id="split-hand">
+                    <element id="blankSplit"></element>
+                </div>
+            </div>
+    `)
+    let ep = document.createElement("element");
+    ep.setAttribute("id","blankSplit")
+    childPlayer.appendChild(ep);
+
+}
+
 //---------------------->    STAY BUTTON
 stayButton.addEventListener('click', () => {
     handValue();

@@ -52,7 +52,7 @@ body {
     float: left;
     width: 80px;
     height: 80px;
-    margin: 5px 8px;
+    margin: 5px 6px;
     font-size: 24px;
     text-align: center;
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -76,10 +76,10 @@ body {
     transform: translateY(4px);
 }
 #button-holder {
-    width: 288px;
-    margin-right: 88px;
-    margin-left: 88px;
-    float: left;
+    width: 460px;
+    margin-right: 2px;
+    margin-left: 2px;
+    /* float: left; */
 }
 #buy-button {
     visibility: hidden;
@@ -118,18 +118,23 @@ footer {
 }
 #player {
     width: auto;
+    float: left;
+    /* width: 50%; */
     padding-top: 1em;
     position: relative;
 }
+
+/* SPLIT */
+/* .player-split {
+    width: 50%;
+} */
 #dealer{
     width: auto;
     padding-bottom: 1em;
 }
 
 /* CONTENT */
-/* element {
-    position: relative;
-} */
+
 h1 {
     position: sticky;
     top: 0;
