@@ -88,6 +88,7 @@ splitButton.addEventListener('click', () => {
 
     clearSplitBtns();
     splitHand();
+    displayPlayerSplitCard();
     
 
 })
@@ -167,12 +168,20 @@ const displayDeal = () => {
         }
 }
 
-//---------------------->    SHOW HIT ME CARD
+//---------------------->    SHOW NEW CARD
 const displayPlayerCard = () => {
     document.getElementById("blankPlayer").insertAdjacentHTML("beforebegin", `<element class="slide card ${player.hand[0].suit} r${player.hand[0].face}"></element>`);
 }
 const displayDealerCard = () => {
     document.getElementById("blankDealer").insertAdjacentHTML("beforebegin", `<element class="slide card ${dealer.hand[0].suit} r${dealer.hand[0].face}"></element>`);
+}
+//---------------------->    SHOW MOVED SPLIT CARD
+const displayPlayerSplitCard = () => {
+    // thi works
+    document.getElementById("blankSplit").insertAdjacentHTML("beforebegin", `<element class="slide card ${player.hand[0].suit} r${player.hand[0].face}"></element>`);
+    // this does not
+    let card = document.getElementById("player-hand")
+    card.removeChild(card.childNodes[0]);
 }
 //---------------------->    RESET CARD DISPLAY
 const displayReset = () => {
