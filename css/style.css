@@ -116,21 +116,24 @@ footer {
     height: 16rem;
     margin: 2rem auto 1rem auto;   
 }
-#player {
-    width: auto;
+/* SPLIT MESS */
+/* .split-right {
+    float: right;
+} */
+.player {
+    width: 464px;
     float: left;
     /* width: 50%; */
-    padding-top: 1em;
+    /* padding-top: 1em; */
     position: relative;
 }
-
 /* SPLIT */
 /* .player-split {
     width: 50%;
 } */
 #dealer{
     width: auto;
-    padding-bottom: 1em;
+    padding-bottom: 2em;
 }
 
 /* CONTENT */

@@ -79,28 +79,26 @@ hitButton.addEventListener('click', () => {
 })
 //---------------------->    SPLIT BUTTON
 splitButton.addEventListener('click', () => {
-    prompt('this button does not work yet');
+    splitHand();
 })
 //-------------------------------------------->    SPLIT PSEUDOCODE
-// if value === value
+// if [0].value === [1].value
 // player.handS[Split[0].push and player.hand[0]splice
 // hitMe() to each hand
 // need to be able to separate buttons or add new buttons for second hand
 // need to make space for new cards
 //---------------------->    SPLIT HAND
-const split = () => {
+const splitHand = () => {
     let leftSplit = document.getElementById('player');
-    leftSplit.insertAdjacentHTML(`
-            <div id="player-split" class="center">
-                <div id="split-hand">
-                    <element id="blankSplit"></element>
-                </div>
-            </div>
+    leftSplit.insertAdjacentHTML("afterend", `<br/>
+    <div>
+        <div class="player split-right">
+            <element id="blankSplit" class="player"></element>
+            <element class="transitOpen fade card back-red"></element>
+            <element class="transitOpen fade card back-red"></element>
+        </div>
+    </div> <br/>
     `)
-    let ep = document.createElement("element");
-    ep.setAttribute("id","blankSplit")
-    childPlayer.appendChild(ep);
-
 }
 
 //---------------------->    STAY BUTTON
