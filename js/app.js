@@ -17,11 +17,9 @@ class Player {
     }
 }
 const dealer = {
-    hand: [],
-}
-const playerSplitHand = {
     hand: []
 }
+
 
 let player = new Player("Fauxman");  //--> edit out later into prompt with name display
 let deck = [];
@@ -29,6 +27,7 @@ let shuffledDeck = [];
 let playerFinalScore = 0;
 let dealerFinalScore = 0;
 let dealerCall = [];
+let playerSplitHand = [];
 let alert = document.querySelector("#alert")
 const getSum = (total, num) => {return total + num;}
 
@@ -40,6 +39,7 @@ const doubleButton = document.getElementById('double-button');
 const splitButton = document.getElementById('split-button');  //--> change rule so dealer quits at 17
 const stayButton = document.getElementById('stay-button');
 const buyButton = document.getElementById('buy-button');
+const splitHitButton = document.getElementById('split-hit-button');
 // const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 
 //---------------------->    START GAME EVENT LISTENER
@@ -83,52 +83,103 @@ hitButton.addEventListener('click', () => {
     displayPlayerCard();
     showMoney(); 
 })
-//---------------------->    SPLIT BUTTON
-splitButton.addEventListener('click', () => {
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//---------------------->    SPLIT BUTTON - this mostly works  sometimes pushes wrong card
+splitButton.addEventListener('click', () => {
+    player.chips = player.chips - 1;
     clearSplitBtns();
     splitHand();
     displayPlayerSplitCard();
-    
-
 })
-const splitHand = () => {
-    playerSplitHand.hand.unshift(player.hand[1]);
-    console.log(playerSplitHand);
-    player.hand.pop()
-    // push hand
-}
 
-const clearSplitBtns = () => {
-    document.querySelector('#split-button').style.display = "none";
-    document.querySelector('#split-hand').style.display = "block";
-
-}
-
-
-//-------------------------------------------->    SPLIT PSEUDOCODE
-// if [0].value === [1].value
-// player.handS[Split[0].push and player.hand[0]splice
-// hitMe() to each hand
-// need to be able to separate buttons or add new buttons for second hand
-// need to make space for new cards
 const splitDetector = () => {
     let button = document.querySelector('#split-button');
     if (player.hand[0].value === player.hand[1].value){
         button.style.display = "block";
     }
-    
 }
+const clearSplitBtns = () => {
+    document.querySelector('#split-button').style.display = "none";
+    document.querySelector('#split-hand').style.display = "block";
+}
+const splitHand = () => {
+    playerSplitHand.unshift(player.hand[0]);
+    player.hand.shift()
+}
+
+const displayPlayerSplitCard = () => {
+    document.getElementById("blankSplit").insertAdjacentHTML("beforebegin", `<element class="fade card ${playerSplitHand[0].suit} r${playerSplitHand[0].face}"></element>`);
+    let card = document.getElementById("player-hand");
+    card.removeChild(card.childNodes[0]);
+}
+
+
+//---------------------->    SPLIT HIT BUTTON - this does NOT work
+// doesn't work yet.  calls wrong cards
+splitHitButton.addEventListener('click', () => {
+    splitHitMe();
+    displayHitSplitCard();
+
+})
+
+const splitHitMe = () => {
+    let card = shuffledDeck.shift();
+    playerSplitHand.unshift(card);
+}
+
+const displayHitSplitCard = () => {
+    document.getElementById("blankSplit").insertAdjacentHTML("beforebegin", `<element class="slide card ${playerSplitHand[0].suit} r${playerSplitHand[0].face}"></element>`);
+}
+
+
+
+
+
+
+//---------------------->    CLEAR SPLIT - this works
+const eraseSplit = () => {
+    let hand = document.querySelector('#split-hand');
+    hand.style.display = "none";
+    playerSplitHand = [];
+    hand.innerHTML = `<div class="player"><element id="blankSplit" class="player"></element></div>`;  
+}
+
+
+
+
+
+
+//-------------------------------------------->    SPLIT PSEUDOCODE
+
 
 // const thirdSplitDetector = () => {}
 // thirdSplitDetector()
 //---------------------->    SPLIT HAND
+//---------------------->    SHOW MOVED SPLIT CARD
 
-const eraseSplit = () => {
-    document.querySelector('#split-hand').style.display = "none";
-    // let childSplit = document.getElementById("split-hand");//
-    // childSplit.innerHTML = '';//
-}
+
+
+
+
+
+
+
+
 
 
 //---------------------->    STAY BUTTON
@@ -175,14 +226,7 @@ const displayPlayerCard = () => {
 const displayDealerCard = () => {
     document.getElementById("blankDealer").insertAdjacentHTML("beforebegin", `<element class="slide card ${dealer.hand[0].suit} r${dealer.hand[0].face}"></element>`);
 }
-//---------------------->    SHOW MOVED SPLIT CARD
-const displayPlayerSplitCard = () => {
-    // thi works
-    document.getElementById("blankSplit").insertAdjacentHTML("beforebegin", `<element class="slide card ${player.hand[0].suit} r${player.hand[0].face}"></element>`);
-    // this does not
-    let card = document.getElementById("player-hand")
-    card.removeChild(card.childNodes[0]);
-}
+
 //---------------------->    RESET CARD DISPLAY
 const displayReset = () => {
     let childPlayer = document.getElementById("player-hand");
@@ -209,6 +253,7 @@ const showRound = () => {
 const clearField = () => {
     player.hand = [];
     dealer.hand = [];
+    // playerSplitHand = [];
     deck = [];
     shuffledDeck = [];
     player.round++;
