@@ -82,6 +82,7 @@ hitButton.addEventListener('click', () => {
 //---------------------->    SPLIT BUTTON
 splitButton.addEventListener('click', () => {
     splitHand();
+    document.querySelector('#split-button').style.display = "none";
 })
 //-------------------------------------------->    SPLIT PSEUDOCODE
 // if [0].value === [1].value
@@ -93,7 +94,9 @@ const splitDetector = () => {
     let button = document.querySelector('#split-button');
     if (player.hand[0].value === player.hand[1].value){
         button.style.display = "block";
+        // document.querySelector('#split-button').style.display = "none";
     }
+    
 }
 // splitDetector()
 //---------------------->    SPLIT HAND

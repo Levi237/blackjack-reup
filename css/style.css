@@ -152,7 +152,10 @@ footer {
 #split-button {
     display: none;
     /* visibility: hidden; */
-    position: relative;
+    position: absolute;
+    z-index: 100000;
+    width: 264px;
+    margin: 50px 100px;
 }
 
 
