@@ -41,6 +41,7 @@ const splitButton = document.getElementById('split-button');  //--> change rule 
 const stayButton = document.getElementById('stay-button');
 const buyButton = document.getElementById('buy-button');
 const splitHitButton = document.getElementById('split-hit-button');
+const splitStayButton = document.getElementById('split-stay-button');
 // const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 
 //---------------------->    START GAME EVENT LISTENER
@@ -103,7 +104,7 @@ hitButton.addEventListener('click', () => {
 
 
 
-//---------------------->    SPLIT BUTTON - this mostly works  sometimes pushes wrong card
+//---------------------->    SPLIT BUTTON
 splitButton.addEventListener('click', () => {
     player.chips -= 1;
     showMoney(); 
@@ -144,11 +145,10 @@ const displayHitSplitCard = () => {
 }
 //---------------------->    SPLIT
 
-// need AI
-// need accounting
-splitStayButton.addEventListener('click', () => {
-
-})
+//--> this button does not work yet
+// splitStayButton.addEventListener('click', () => {
+//     console.log("hi split stay button")
+// })
 
 const splitValue = () => {
     let splitCall = [];
