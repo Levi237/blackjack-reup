@@ -41,6 +41,7 @@ const buyButton = document.getElementById('buy-button');
 //---------------------->    START GAME EVENT LISTENER
 playButton.addEventListener('click', () => {
     displayReset();
+    eraseSplit();
     stayButton.removeAttribute('disabled');
     doubleButton.removeAttribute('disabled');
     hitButton.removeAttribute('disabled');//dd
@@ -54,6 +55,7 @@ playButton.addEventListener('click', () => {
         dealHand();
         displayDeal();
         showMoney()
+        splitDetector()
     } else {
         buyIn()
     }     
@@ -87,19 +89,35 @@ splitButton.addEventListener('click', () => {
 // hitMe() to each hand
 // need to be able to separate buttons or add new buttons for second hand
 // need to make space for new cards
+const splitDetector = () => {
+    let button = document.querySelector('#split-button');
+    if (player.hand[0].value === player.hand[1].value){
+        button.style.display = "block";
+    }
+}
+// splitDetector()
 //---------------------->    SPLIT HAND
 const splitHand = () => {
-    let leftSplit = document.getElementById('player');
-    leftSplit.insertAdjacentHTML("afterend", `<br/>
-    <div>
-        <div class="player split-right">
-            <element id="blankSplit" class="player"></element>
-            <element class="transitOpen fade card back-red"></element>
-            <element class="transitOpen fade card back-red"></element>
-        </div>
-    </div> <br/>
-    `)
+    document.querySelector('#split-hand').style.display = "block";
+    // let leftSplit = document.getElementById('player');
+    // leftSplit.insertAdjacentHTML("afterend", `
+    // <div id="split-hand">
+    //     <div class="player">
+    //         <element id="blankSplit" class="player"></element>
+    //         <element class="transitOpen fade card back-red"></element>
+    //         <element class="transitOpen fade card back-red"></element>
+    //     </div>
+    // </div>
+    // `)
 }
+
+
+const eraseSplit = () => {
+    document.querySelector('#split-hand').style.display = "none";
+    // let childSplit = document.getElementById("split-hand");//
+    // childSplit.innerHTML = '';//
+}
+
 
 //---------------------->    STAY BUTTON
 stayButton.addEventListener('click', () => {
