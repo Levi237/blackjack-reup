@@ -157,8 +157,15 @@ footer {
     width: 264px;
     margin: 50px 100px;
 }
-
-
+#split-hit-button {
+    position: relative;
+    /* display: none; */
+    z-index: 100000;
+}
+/* TRYING TO HIDE STUFF */
+.hidden {
+    display: none;
+}
 
 
 
