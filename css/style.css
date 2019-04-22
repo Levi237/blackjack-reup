@@ -149,15 +149,17 @@ footer {
     width: 464px;
 }
 
-#split-button {
+.hide-split-button {
     display: none;
     /* visibility: hidden; */
     position: absolute;
     z-index: 100000;
     width: 264px;
-    margin: 50px 100px;
+    margin: 25px 100px;
 }
-
+.no-split {
+    margin-top: 125px;
+}
 
 
 

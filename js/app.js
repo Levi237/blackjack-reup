@@ -1,5 +1,8 @@
 //--> BLACK JACK GAME
 
+//--------------------------->BUGS
+// when there are 3 aces only two get counted as 1s, the last is still an 11
+
 
 //-->   END GAME PSEUDOCODE
 //intervalTimer needed for dealer, how to break up each card draw?
@@ -38,6 +41,7 @@ const playButton = document.getElementById('play-button');
 const hitButton = document.getElementById('hit-button');
 const doubleButton = document.getElementById('double-button');
 const splitButton = document.getElementById('split-button');  //--> change rule so dealer quits at 17
+const splitNoButton = document.getElementById('split-no-button');
 const stayButton = document.getElementById('stay-button');
 const buyButton = document.getElementById('buy-button');
 const splitHitButton = document.getElementById('split-hit-button');
@@ -99,7 +103,12 @@ hitButton.addEventListener('click', () => {
 
 
 
-
+splitNoButton.addEventListener('click', () => {
+    let noBtn = document.querySelector('#split-no-button');
+    let splitBtn = document.querySelector('#split-button');
+        noBtn.style.display = "none";
+        splitBtn.style.display = "none";
+})
 
 
 
@@ -111,11 +120,14 @@ splitButton.addEventListener('click', () => {
     clearSplitBtns();
     splitHand();
     displayPlayerSplitCard();
+    document.querySelector('#split-no-button').style.display = "none";
 })
 const splitDetector = () => {
-    let button = document.querySelector('#split-button');
+    let noBtn = document.querySelector('#split-no-button');
+    let splitBtn = document.querySelector('#split-button');
     if (player.hand[0].value === player.hand[1].value){
-        button.style.display = "block";
+        splitBtn.style.display = "block";
+        noBtn.style.display = "block";
     }
 }
 const clearSplitBtns = () => {
@@ -436,6 +448,7 @@ document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r
 
 //---------------------->    DOUBLE DOWN
 const doubleDown = () => {  
+    if (player.chips != 0) {
         if (playerFinalScore <= 21 && playerFinalScore > dealerFinalScore || playerFinalScore <= 21 &&  dealerFinalScore > 21) {
             player.chips += 3;
         } else if (playerFinalScore === dealerFinalScore){
@@ -445,10 +458,12 @@ const doubleDown = () => {
                 player.chips += 3;
             } else if (playerSplitScore === dealerFinalScore){
                 player.chips += 1;
-            }
+            } alert.innerText = "Not enough money";
+    } else {
+
+    }
     callHand();
 };
-
 
 // const doubleDown = () => {  
 
