@@ -51,6 +51,8 @@ const buyButton = document.getElementById('buy-button');
 const splitStayButton = document.getElementById('split-stay-button');
 // const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 
+
+
 //---------------------->    START GAME EVENT LISTENER
 playButton.addEventListener('click', () => {
     displayReset();
@@ -61,16 +63,17 @@ playButton.addEventListener('click', () => {
     alert.innerText = "";
     if (player.chips > 0) {
         player.chips -= 1;
+        statsBox();
         clearField();
         showRound();
         makeDeck();
         shuffleCards();
         dealHand();
         displayDeal();
-        showMoney()
-        splitDetector()
+        showMoney();
+        splitDetector();
     } else {
-        buyIn()
+        buyIn();
     }     
 })
 //---------------------->    DOUBLE DOWN BUTTON
@@ -99,8 +102,10 @@ hitButton.addEventListener('click', () => {
 
 
 
-
-
+const statsBox = () => {
+    const bigBox = document.querySelector('big-box').
+    bigBox.style.style.display = "block";
+}
 
 
 

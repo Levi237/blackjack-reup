@@ -13,6 +13,7 @@ body {
 }
 /*******************************    DISPLAY WINDOW COUNTER *******************************/
 .big-box {
+    display: none;
     position: absolute;
     right: 0;
     z-index: 100;
