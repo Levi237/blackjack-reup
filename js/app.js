@@ -2,6 +2,7 @@
 
 //--------------------------->BUGS
 // when there are 3 aces only two get counted as 1s, the last is still an 11
+// Does not stop at 0 with chips anymore
 
 
 //-->   END GAME PSEUDOCODE
@@ -38,13 +39,15 @@ const getSum = (total, num) => {return total + num;}
 
 //---------------------->   BUTTONS
 const playButton = document.getElementById('play-button');
+const splitHitButton = document.getElementById('split-hit-button');
 const hitButton = document.getElementById('hit-button');
 const doubleButton = document.getElementById('double-button');
 const splitButton = document.getElementById('split-button');  //--> change rule so dealer quits at 17
 const splitNoButton = document.getElementById('split-no-button');
+
 const stayButton = document.getElementById('stay-button');
 const buyButton = document.getElementById('buy-button');
-const splitHitButton = document.getElementById('split-hit-button');
+
 const splitStayButton = document.getElementById('split-stay-button');
 // const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 
@@ -56,7 +59,7 @@ playButton.addEventListener('click', () => {
     doubleButton.removeAttribute('disabled');
     hitButton.removeAttribute('disabled');//dd
     alert.innerText = "";
-    if (player.chips !== 0) {
+    if (player.chips > 0) {
         player.chips -= 1;
         clearField();
         showRound();
@@ -102,7 +105,7 @@ hitButton.addEventListener('click', () => {
 
 
 
-
+//---------------------->    OPT NO SPLIT BUTTON
 splitNoButton.addEventListener('click', () => {
     let noBtn = document.querySelector('#split-no-button');
     let splitBtn = document.querySelector('#split-button');
@@ -117,7 +120,7 @@ splitNoButton.addEventListener('click', () => {
 splitButton.addEventListener('click', () => {
     player.chips -= 1;
     showMoney(); 
-    clearSplitBtns();
+    switchSplitBtns();
     splitHand();
     displayPlayerSplitCard();
     document.querySelector('#split-no-button').style.display = "none";
@@ -130,11 +133,15 @@ const splitDetector = () => {
         noBtn.style.display = "block";
     }
 }
-const clearSplitBtns = () => {
-    document.querySelector('#split-button').style.display = "none";
-    document.querySelector('#split-hand').style.display = "block";
+// TURN OFF SPLIT BUTTON AND OPEN SECOND HAND
+const switchSplitBtns = () => {
+    document.querySelector('#split-button').style.display = "none"; // removes split button
+    document.querySelector('#split-hand').style.display = "block"; // displays second hand
+    // document.querySelector('#blankSplit').insertAdjacentHTML = `<button id="split-hit-button" class="button">SPLIT HIT</button>`
 }
-const splitHand = () => {
+
+// MOVE CARD TO SECOND HAND
+const splitHand = () => { 
     playerSplitHand.unshift(player.hand[0]);
     player.hand.shift()
 }
@@ -144,17 +151,18 @@ const displayPlayerSplitCard = () => {
     card.removeChild(card.childNodes[0]);
 }
 //---------------------->    SPLIT HIT BUTTON - this works
+// This split that appears does not have the ablilty to deal but the split outside of the div does.
 splitHitButton.addEventListener('click', () => {
     splitHitMe();
-    displayHitSplitCard();
 })
 const splitHitMe = () => {
     let card = shuffledDeck.shift();
     playerSplitHand.unshift(card);
-}
-const displayHitSplitCard = () => {
     document.getElementById("blankSplit").insertAdjacentHTML("beforebegin", `<element class="slide card ${playerSplitHand[0].suit} r${playerSplitHand[0].face}"></element>`);
 }
+// const displayHitSplitCard = () => {
+//     document.getElementById("blankSplit").insertAdjacentHTML("beforebegin", `<element class="slide card ${playerSplitHand[0].suit} r${playerSplitHand[0].face}"></element>`);
+// }
 //---------------------->    SPLIT
 
 //--> this button does not work yet
@@ -178,6 +186,15 @@ const splitValue = () => {
         alert.innerText = "Split Bust"; //
        } //
 }
+
+//---------------------->    CLEAR SPLIT - this works
+const eraseSplit = () => {
+    let hand = document.querySelector('#split-hand');
+    hand.style.display = "none";
+    playerSplitHand = [];
+    hand.innerHTML = `<div class="player"><element id="blankSplit" class="player"></element></div>`;  
+}
+
 // //---------------------->    AI - DEALER HIT  -->  STAY button
 // const  dealerAI = () => {
 // document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r${dealer.hand[0].face}`;
@@ -250,13 +267,6 @@ const splitValue = () => {
 
 
 
-//---------------------->    CLEAR SPLIT - this works
-const eraseSplit = () => {
-    let hand = document.querySelector('#split-hand');
-    hand.style.display = "none";
-    playerSplitHand = [];
-    hand.innerHTML = `<div class="player"><element id="blankSplit" class="player"></element></div>`;  
-}
 
 
 
@@ -433,7 +443,7 @@ document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r
         displayDealerCard();    
     }
     for (let d = 0; d < dealer.hand.length; d++) {  //---------------------->    IDK WHY THIS WORKS YET BUT IT DOES?
-        if (dealer.hand[d].face == "Ace" && dealerFinalScore > 21) {
+        if (dealer.hand[d].face == "Ace" && dealerFinalScore > 21) { // does not make the third Ace a 1 when needed
             dealerFinalScore = dealerFinalScore - 10;
             if (dealerFinalScore < playerFinalScore && playerFinalScore <= 21){
                 let card = shuffledDeck.shift();
@@ -447,8 +457,9 @@ document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r
 }
 
 //---------------------->    DOUBLE DOWN
+// Still need to figure out how to get this working, goes into the negative instead of stopping the game
 const doubleDown = () => {  
-    if (player.chips != 0) {
+    if (player.chips > 0) {
         if (playerFinalScore <= 21 && playerFinalScore > dealerFinalScore || playerFinalScore <= 21 &&  dealerFinalScore > 21) {
             player.chips += 3;
         } else if (playerFinalScore === dealerFinalScore){
@@ -458,9 +469,9 @@ const doubleDown = () => {
                 player.chips += 3;
             } else if (playerSplitScore === dealerFinalScore){
                 player.chips += 1;
-            } alert.innerText = "Not enough money";
+            } 
     } else {
-
+        alert.innerText = "Not enough money";
     }
     callHand();
 };
@@ -501,7 +512,7 @@ const callHand = () => {
 
 //---------------------->       BUY IN
 const buyIn = () => {
-    if (player.chips === 0) {
+    if (player.chips <= 0) {
         document.querySelector('#buy-button').style.visibility = "visible"
     }   
 }
