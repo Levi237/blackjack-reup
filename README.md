@@ -6,6 +6,8 @@
 To get an additional card, reqest a hit.  To complete the round, click stay.
 </p>
 
+<a href="file:///Users/Levi/GA-Proj/blackjack/index.html">Play Black</a>
+
 <strong>Technologies Used:</strong><br>
 Javascript<br>
 Vanilla Js<br>

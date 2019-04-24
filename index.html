@@ -14,6 +14,8 @@
     <header>
             <h1 id="sign" class="fade">BlackJack </h1>
             <button id="buy-button" class="button">BUY $100</button>
+            <button id="split-button" class="button hide-split-button">SPLIT</button>
+            <button id="split-no-button" class="button hide-split-button no-split">NO SPLIT</button>
     </header>   
 
     <div id="game-table">
@@ -32,8 +34,8 @@
                 <h2>Round:</h2>
             </div>
         </div>
-        <div id="dealer" class="center">
-            <div id="dealer-hand" class="show">
+        <div id="dealer">
+            <div id="dealer-hand">
                 <element id="blankDealer"></element>
                 <element class="transitOpen fade card back-red"></element>
                 <element class="transitOpen fade card back-red"></element>
@@ -43,23 +45,33 @@
                 <element class="transitOpen fade card back-red"></element>
             </div>
         </div>
-        <div id="player" class="center">
-            <div id="player-hand" class="show">
+        <div id="player">
+            <div id="player-hand" class="player">
                 <element id="blankPlayer"></element>
-                <element class="transitOpen fade card back-red"></element>
-                <element class="transitOpen fade card back-red"></element>
-                <element class="transitOpen fade card back-red"></element>
-                <element class="transitOpen fade card back-red"></element>
-                <element class="transitOpen fade card back-red"></element>
-                <element class="transitOpen fade card back-red"></element>
+                <element class="split transitOpen fade card back-red"></element>
+                <element class="split transitOpen fade card back-red"></element>
+                <element class="split transitOpen fade card back-red"></element>
+                <element class="split transitOpen fade card back-red"></element>
+                <element class="split transitOpen fade card back-red"></element>
+                <element class="split transitOpen fade card back-red"></element>
+            </div>
+        </div>
+        <div id="split-hand">
+            <!-- <button id="split-hit-button" class="button">SPLIT HIT</button> -->
+            <div class="player">
+                    
+                <element id="blankSplit" class="player"></element>
+                
             </div>
         </div>
     </div>
     <footer>
         <div id="button-holder" class="fade2">
             <button id="play-button" class="button">PLAY</button>
+            <button id="double-button" class="button">DBL DWN</button>
             <button id="hit-button" class="button">HIT</button>
             <button id="stay-button" class="button">STAY</button>
+            <button id="split-hit-button" class="button">SPLIT HIT</button>
 
         </div>
     </footer>

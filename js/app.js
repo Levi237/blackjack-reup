@@ -1,11 +1,12 @@
-console.log("WELCOME TO BLACKJACK!  YOU HAVE 10 CHIPS TO START")
-console.log("GOOD LUCK!")
 //--> BLACK JACK GAME
+
+//--------------------------->BUGS
+// when there are 3 aces only two get counted as 1s, the last is still an 11
+// Does not stop at 0 with chips anymore
 
 
 //-->   END GAME PSEUDOCODE
-//buttons need to be used only when necessary
-//intervalTimer needed to slow down card display
+//intervalTimer needed for dealer, how to break up each card draw?
 //opening page?
 //restart option
 
@@ -20,36 +21,46 @@ class Player {
     }
 }
 const dealer = {
-    name: "Bob",
-    hand: [],
+    hand: []
 }
 
-let player = new Player("Fauxman");  //--> edit out later into prompt?
+let player = new Player("Fauxman");  //--> edit out later into prompt with name display
+
 let deck = [];
 let shuffledDeck = [];
 let playerFinalScore = 0;
 let dealerFinalScore = 0;
 let dealerCall = [];
+let playerSplitHand = [];
+let playerSplitScore = 0;
 let alert = document.querySelector("#alert")
 const getSum = (total, num) => {return total + num;}
 
 
 //---------------------->   BUTTONS
 const playButton = document.getElementById('play-button');
+const splitHitButton = document.getElementById('split-hit-button');
 const hitButton = document.getElementById('hit-button');
-// const splitButton = document.getElementById('split-button')  //--> change rule so dealer quits at 17
-// const doubleButton = document.getElementById('double-button')  //--> change rule so dealer quits at 17
-// const splitButton = document.getElementById('split-button')  //--> Double Down
-// const restartButton = document.getElementById('restart-button')  //--> Restart
+const doubleButton = document.getElementById('double-button');
+const splitButton = document.getElementById('split-button');  //--> change rule so dealer quits at 17
+const splitNoButton = document.getElementById('split-no-button');
+
 const stayButton = document.getElementById('stay-button');
 const buyButton = document.getElementById('buy-button');
+
+const splitStayButton = document.getElementById('split-stay-button');
+// const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
+
 //---------------------->    START GAME EVENT LISTENER
 playButton.addEventListener('click', () => {
     displayReset();
+    eraseSplit();
     stayButton.removeAttribute('disabled');
+    doubleButton.removeAttribute('disabled');
+    hitButton.removeAttribute('disabled');//dd
     alert.innerText = "";
-    if (player.chips !== 0) {
-        player.chips = player.chips - 1;
+    if (player.chips > 0) {
+        player.chips -= 1;
         clearField();
         showRound();
         makeDeck();
@@ -57,22 +68,235 @@ playButton.addEventListener('click', () => {
         dealHand();
         displayDeal();
         showMoney()
+        splitDetector()
     } else {
         buyIn()
-        console.log("you are out of money, would you like to buy in for another 10?")
-        //RESET GAME     
     }     
+})
+//---------------------->    DOUBLE DOWN BUTTON
+doubleButton.addEventListener('click', () => {
+    if (!playerSplitHand.length > 0){
+    player.chips -= 1;
+    } else {
+        player.chips -= 1;
+    }
+    hitMe();
+    displayPlayerCard();
+    handValue();
+    dealerAI();
+    doubleDown(); // why doesn't this work?
+    showMoney(); 
+    doubleButton.setAttribute('disabled', true);
+    hitButton.setAttribute('disabled', true);
+    stayButton.setAttribute('disabled', true);
 })
 //---------------------->    HIT BUTTON
 hitButton.addEventListener('click', () => {
     hitMe();
     displayPlayerCard();
-    showMoney()
+    showMoney(); 
 })
+
+
+
+
+
+
+
+
+
+//---------------------->    OPT NO SPLIT BUTTON
+splitNoButton.addEventListener('click', () => {
+    let noBtn = document.querySelector('#split-no-button');
+    let splitBtn = document.querySelector('#split-button');
+        noBtn.style.display = "none";
+        splitBtn.style.display = "none";
+})
+
+
+
+
+//---------------------->    SPLIT BUTTON
+splitButton.addEventListener('click', () => {
+    player.chips -= 1;
+    showMoney(); 
+    switchSplitBtns();
+    splitHand();
+    displayPlayerSplitCard();
+    document.querySelector('#split-no-button').style.display = "none";
+})
+const splitDetector = () => {
+    let noBtn = document.querySelector('#split-no-button');
+    let splitBtn = document.querySelector('#split-button');
+    if (player.hand[0].value === player.hand[1].value){
+        splitBtn.style.display = "block";
+        noBtn.style.display = "block";
+    }
+}
+// TURN OFF SPLIT BUTTON AND OPEN SECOND HAND
+const switchSplitBtns = () => {
+    document.querySelector('#split-button').style.display = "none"; // removes split button
+    document.querySelector('#split-hand').style.display = "block"; // displays second hand
+    // document.querySelector('#blankSplit').insertAdjacentHTML = `<button id="split-hit-button" class="button">SPLIT HIT</button>`
+}
+
+// MOVE CARD TO SECOND HAND
+const splitHand = () => { 
+    playerSplitHand.unshift(player.hand[0]);
+    player.hand.shift()
+}
+const displayPlayerSplitCard = () => {
+    document.getElementById("blankSplit").insertAdjacentHTML("beforebegin", `<element class="fade card ${playerSplitHand[0].suit} r${playerSplitHand[0].face}"></element>`);
+    let card = document.getElementById("player-hand");
+    card.removeChild(card.childNodes[0]);
+}
+//---------------------->    SPLIT HIT BUTTON - this works
+// This split that appears does not have the ablilty to deal but the split outside of the div does.
+splitHitButton.addEventListener('click', () => {
+    splitHitMe();
+})
+const splitHitMe = () => {
+    let card = shuffledDeck.shift();
+    playerSplitHand.unshift(card);
+    document.getElementById("blankSplit").insertAdjacentHTML("beforebegin", `<element class="slide card ${playerSplitHand[0].suit} r${playerSplitHand[0].face}"></element>`);
+}
+// const displayHitSplitCard = () => {
+//     document.getElementById("blankSplit").insertAdjacentHTML("beforebegin", `<element class="slide card ${playerSplitHand[0].suit} r${playerSplitHand[0].face}"></element>`);
+// }
+//---------------------->    SPLIT
+
+//--> this button does not work yet
+// splitStayButton.addEventListener('click', () => {
+//     console.log("hi split stay button")
+// })
+
+const splitValue = () => {
+    let splitCall = [];
+    for (let i = 0; i < player.hand.length; i++){
+        splitCall.push(player.hand[i].value);
+    }
+        playerFinalScore = splitCall.reduce(getSum);
+        dealerFinalScore = dealerCall.reduce(getSum);
+    for (let i = 0; i < playerSplitHand.length; i++){
+        if (playerSplitHand[i].face == "Ace" && playerSplitScore > 21) {
+            playerSplitScor = playerSplitScor - 10;
+        } 
+    }
+    if (playerSplitScor > 21) { //
+        alert.innerText = "Split Bust"; //
+       } //
+}
+
+//---------------------->    CLEAR SPLIT - this works
+const eraseSplit = () => {
+    let hand = document.querySelector('#split-hand');
+    hand.style.display = "none";
+    playerSplitHand = [];
+    hand.innerHTML = `<div class="player"><element id="blankSplit" class="player"></element></div>`;  
+}
+
+// //---------------------->    AI - DEALER HIT  -->  STAY button
+// const  dealerAI = () => {
+// document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r${dealer.hand[0].face}`;
+//     while (dealerFinalScore < playerFinalScore && playerFinalScore <= 21 || dealerFinalScore < 12 && dealerFinalScore === playerFinalScore) {
+//         let card = shuffledDeck.shift();
+//         dealer.hand.unshift(card);
+//         dealerCall.unshift(card.value);
+//         dealerFinalScore = dealerCall.reduce(getSum);
+//         displayDealerCard();    
+//     }
+//     for (let d = 0; d < dealer.hand.length; d++) {  //---------------------->    IDK WHY THIS WORKS YET BUT IT DOES?
+//         if (dealer.hand[d].face == "Ace" && dealerFinalScore > 21) {
+//             dealerFinalScore = dealerFinalScore - 10;
+//             if (dealerFinalScore < playerFinalScore && playerFinalScore <= 21){
+//                 let card = shuffledDeck.shift();
+//                 dealer.hand.unshift(card);
+//                 dealerCall.unshift(card.value);
+//                 dealerFinalScore = dealerCall.reduce(getSum);
+//                 displayDealerCard();
+//             }
+//         }
+//     }
+// }
+
+// //---------------------->    DOUBLE DOWN
+// if (playerSplitHand.length > 0){
+//     doubleDown()
+// }
+
+
+
+// const doubleDown = () => {  
+    //     if (playerFinalScore <= 21 && playerFinalScore > dealerFinalScore || playerFinalScore <= 21 &&  dealerFinalScore > 21) {
+    //         player.chips += 3;
+    //     }
+    //     if (playerFinalScore === dealerFinalScore){
+    //         player.chips += 1;
+    //     }
+    //     if (playerSplitScore <= 21 && playerSplitScore > dealerFinalScore || playerSplitScore <= 21 &&  dealerFinalScore > 21) {
+    //         player.chips += 3;
+    //     }
+    //     if (playerSplitScore === dealerFinalScore){
+    //         player.chips += 1;
+    //     }
+//     callHand();
+// };
+
+// //---------------------->    PLAY HAND  -->  STAY button
+// const callHand = () => {
+//     if (playerFinalScore === 21) {
+//         alert.innerText = "21!";
+//     } if (dealerFinalScore > 21 && playerFinalScore <= 21) {
+//         player.chips += 3;
+//         if (playerFinalScore < 17 && dealerFinalScore > 21){
+//         alert.innerText = "Dealer Bust!";
+//         } else {
+//             alert.innerText = "You Win!";
+//         }
+//     } else if (playerFinalScore <= 21 && playerFinalScore > dealerFinalScore) {
+//         player.chips += 3;
+//         alert.innerText = "You Win!";
+//     } else if (playerFinalScore <= 21 && playerFinalScore === dealerFinalScore) {
+//         player.chips++;
+//         alert.innerText = "Push";
+//     } else if (playerFinalScore < dealerFinalScore && dealerFinalScore <= 21) {
+//         alert.innerText = "House Wins";  
+//     }
+//     //-------->  anything else need to go in here?
+// };
+
+
+
+
+
+
+
+// need split STAY option
+
+//-------------------------------------------->    SPLIT PSEUDOCODE
+
+
+// const thirdSplitDetector = () => {}
+// thirdSplitDetector()
+//---------------------->    SPLIT HAND
+//---------------------->    SHOW MOVED SPLIT CARD
+
+
+
+
+
+
+
+
+
+
+
 //---------------------->    STAY BUTTON
 stayButton.addEventListener('click', () => {
     handValue();
-    dealerAI();
+    // setTimeout(function() {
+        dealerAI();
+    // },200);
     callHand();
     showMoney();
     stayButton.setAttribute('disabled', true);
@@ -103,15 +327,15 @@ const displayDeal = () => {
             alert.innerText = "21 blackjack!";
         }
 }
-//---------------------->    SHOW HIT ME CARD
+
+//---------------------->    SHOW NEW CARD
 const displayPlayerCard = () => {
     document.getElementById("blankPlayer").insertAdjacentHTML("beforebegin", `<element class="slide card ${player.hand[0].suit} r${player.hand[0].face}"></element>`);
 }
 const displayDealerCard = () => {
-    // setTimeout(function() {
     document.getElementById("blankDealer").insertAdjacentHTML("beforebegin", `<element class="slide card ${dealer.hand[0].suit} r${dealer.hand[0].face}"></element>`);
-    // },400);  
 }
+
 //---------------------->    RESET CARD DISPLAY
 const displayReset = () => {
     let childPlayer = document.getElementById("player-hand");
@@ -138,6 +362,7 @@ const showRound = () => {
 const clearField = () => {
     player.hand = [];
     dealer.hand = [];
+    // playerSplitHand = [];
     deck = [];
     shuffledDeck = [];
     player.round++;
@@ -145,7 +370,6 @@ const clearField = () => {
 }
 //---------------------->    BUILD A DECK
 const makeDeck = () => {
-    // const cardWord = "card";
     const suits = ["spades", "hearts", "diamonds", "clubs"];
     const face = ["Ace", "02", "03", "04", "05", "06", "07", "08", "09", "10", "Jack", "Queen", "King"];
     for (let s = 0; s < suits.length; s++){
@@ -180,6 +404,7 @@ const dealHand = () => {
     player.hand.push(shuffledDeck[0]);
         shuffledDeck.splice(0, 1);
 }
+
 //---------------------->    HIT ME - deal another card  -->  HIT button
 const hitMe = () => {
     let card = shuffledDeck.shift();
@@ -195,7 +420,6 @@ const handValue = () => {
     for (let d = 0; d < dealer.hand.length; d++){
         dealerCall.push(dealer.hand[d].value);
         }
-    // const getSum = (total, num) => {return total + num;}
         playerFinalScore = playerCall.reduce(getSum);
         dealerFinalScore = dealerCall.reduce(getSum);
     for (let i = 0; i < player.hand.length; i++){
@@ -203,19 +427,23 @@ const handValue = () => {
             playerFinalScore = playerFinalScore - 10;
         } 
     }
+    if (playerFinalScore > 21) { //
+        alert.innerText = "Bust"; //
+       stayButton.setAttribute('disabled', true); //
+       } //
 }
 //---------------------->    AI - DEALER HIT  -->  STAY button
 const  dealerAI = () => {
 document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r${dealer.hand[0].face}`;
-    while (dealerFinalScore < playerFinalScore && playerFinalScore <= 21) {
+    while (dealerFinalScore < playerFinalScore && playerFinalScore <= 21 || dealerFinalScore < 12 && dealerFinalScore === playerFinalScore) {
         let card = shuffledDeck.shift();
         dealer.hand.unshift(card);
         dealerCall.unshift(card.value);
         dealerFinalScore = dealerCall.reduce(getSum);
-        displayDealerCard();
+        displayDealerCard();    
     }
     for (let d = 0; d < dealer.hand.length; d++) {  //---------------------->    IDK WHY THIS WORKS YET BUT IT DOES?
-        if (dealer.hand[d].face == "Ace" && dealerFinalScore > 21) {
+        if (dealer.hand[d].face == "Ace" && dealerFinalScore > 21) { // does not make the third Ace a 1 when needed
             dealerFinalScore = dealerFinalScore - 10;
             if (dealerFinalScore < playerFinalScore && playerFinalScore <= 21){
                 let card = shuffledDeck.shift();
@@ -226,9 +454,38 @@ document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r
             }
         }
     }
-    console.log("                                               DEALER FINAL SCORE: " + dealerFinalScore)
-    console.log("PLAYER FINAL SCORE: " + playerFinalScore)
 }
+
+//---------------------->    DOUBLE DOWN
+// Still need to figure out how to get this working, goes into the negative instead of stopping the game
+const doubleDown = () => {  
+    if (player.chips > 0) {
+        if (playerFinalScore <= 21 && playerFinalScore > dealerFinalScore || playerFinalScore <= 21 &&  dealerFinalScore > 21) {
+            player.chips += 3;
+        } else if (playerFinalScore === dealerFinalScore){
+            player.chips += 1;
+        }
+            if (playerSplitScore <= 21 && playerSplitScore > dealerFinalScore || playerSplitScore <= 21 &&  dealerFinalScore > 21) {
+                player.chips += 3;
+            } else if (playerSplitScore === dealerFinalScore){
+                player.chips += 1;
+            } 
+    } else {
+        alert.innerText = "Not enough money";
+    }
+    callHand();
+};
+
+// const doubleDown = () => {  
+
+//     if (playerFinalScore <= 21 && playerFinalScore > dealerFinalScore || playerFinalScore <= 21 &&  dealerFinalScore > 21) {
+//         player.chips += 3;
+//     }
+//     if (playerFinalScore === dealerFinalScore){
+//         player.chips += 1;
+//     }
+//     callHand();
+// };
 
 //---------------------->    PLAY HAND  -->  STAY button
 const callHand = () => {
@@ -243,24 +500,19 @@ const callHand = () => {
         }
     } else if (playerFinalScore <= 21 && playerFinalScore > dealerFinalScore) {
         player.chips += 3;
-        console.log(alert)
         alert.innerText = "You Win!";
     } else if (playerFinalScore <= 21 && playerFinalScore === dealerFinalScore) {
         player.chips++;
-        alert.innerText = "Its a tie.";
+        alert.innerText = "Push";
     } else if (playerFinalScore < dealerFinalScore && dealerFinalScore <= 21) {
         alert.innerText = "House Wins";  
-    } else if (playerFinalScore > 21) {
-        alert.innerText = "Bust";  
     }
-    console.log("You now have: " +  player.chips + " chips")
-    
     //-------->  anything else need to go in here?
 };
+
 //---------------------->       BUY IN
 const buyIn = () => {
-    if (player.chips === 0) {
-        console.log("click")
+    if (player.chips <= 0) {
         document.querySelector('#buy-button').style.visibility = "visible"
     }   
 }
