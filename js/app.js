@@ -38,6 +38,7 @@ const getSum = (total, num) => {return total + num;}
 
 
 //---------------------->   BUTTONS
+const startButton = document.getElementById('start-button');
 const playButton = document.getElementById('play-button');
 const splitHitButton = document.getElementById('split-hit-button');
 const hitButton = document.getElementById('hit-button');
@@ -51,8 +52,6 @@ const buyButton = document.getElementById('buy-button');
 const splitStayButton = document.getElementById('split-stay-button');
 // const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 
-
-
 //---------------------->    START GAME EVENT LISTENER
 playButton.addEventListener('click', () => {
     displayReset();
@@ -63,7 +62,6 @@ playButton.addEventListener('click', () => {
     alert.innerText = "";
     if (player.chips > 0) {
         player.chips -= 1;
-        statsBox();
         clearField();
         showRound();
         makeDeck();
@@ -101,10 +99,21 @@ hitButton.addEventListener('click', () => {
 })
 
 
+startButton.addEventListener('click', () => {
+    displayReset();
+    startClear();
+    statsBox(); /// put this in a start button
+})
+
+const startClear = () => {
+    let startBtn = document.querySelector('#start-button');
+        startBtn.style.display = "none";
+        alert.innerText = "Click Play to Start";
+}
 
 const statsBox = () => {
     const bigBox = document.querySelector('big-box').
-    bigBox.style.style.display = "block";
+    bigBox.style.display = "block";
 }
 
 

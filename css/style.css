@@ -82,6 +82,13 @@ body {
     margin-right: 2px;
     margin-left: 2px;
 }
+#start-button {
+    position: absolute;
+    z-index: 1000000;
+    width: 264px;
+    margin: 50px 100px;
+    display: block;
+}
 #buy-button {
     visibility: hidden;
     position: absolute;
@@ -206,11 +213,11 @@ h3 {
     -webkit-animation: fadein 5s; 
             animation: fadein 5s;
 }
-.fade2 {
+/* .fade2 {
     text-align: center;
     -webkit-animation: fadein 15s; 
             animation: fadein 15s;
-}
+} */
 @keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
