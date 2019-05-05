@@ -60,8 +60,7 @@ playButton.addEventListener('click', () => {
         dealHand();
         displayDeal();
         showMoney();
-        playerHandValue();
-        showPlayerScore();
+        document.getElementById("player-score").innerText = player.hand[0].value + player.hand[1].value;
         document.getElementById("dealer-score").innerText = dealer.hand[1].value + "+?";
     } else {
         buyIn()
@@ -72,7 +71,7 @@ doubleButton.addEventListener('click', () => {
     player.chips = player.chips - 1;
     hitMe();
     displayPlayerCard();
-    handValue();
+    dealerHandValue();
     dealerAI();
     doubleDown(); // why doesn't this work?
     showMoney(); 
@@ -86,15 +85,17 @@ doubleButton.addEventListener('click', () => {
 hitButton.addEventListener('click', () => {
     hitMe();
     displayPlayerCard();
-    showMoney(); 
-    // handValue();
+    showMoney();
+    playerHandValue(); 
+    // dealerHandValue();
     showPlayerScore();
 })
 
 //---------------------->    STAY BUTTON
 stayButton.addEventListener('click', () => {
-    playerHandValue();
+    
     dealerHandValue();
+    
     // setTimeout(function() {
         dealerAI();
     // },200);
@@ -222,14 +223,16 @@ const hitMe = () => {
     let card = shuffledDeck.shift();
     player.hand.unshift(card);
 }
-//---------------------->   HAND VALUES
+//---------------------->   PLAYER HAND VALUE  -->  STAY button
 
 const playerHandValue = () => {
     let playerCall = [];
     for (let i = 0; i < player.hand.length; i++){
         playerCall.push(player.hand[i].value);
     }
-    playerFinalScore = playerCall.reduce(getSum);
+
+        playerFinalScore = playerCall.reduce(getSum);
+
     for (let i = 0; i < player.hand.length; i++){
         if (player.hand[i].name == "Ace of spades" && playerFinalScore > 21) {
             playerFinalScore = playerFinalScore - 10;
@@ -249,13 +252,13 @@ const playerHandValue = () => {
        stayButton.setAttribute('disabled', true); //
        } //
 }
+
 const dealerHandValue = () => {
-    let dealerCall = [];
     for (let d = 0; d < dealer.hand.length; d++){
         dealerCall.push(dealer.hand[d].value);
         }
         dealerFinalScore = dealerCall.reduce(getSum);
-    for (let i = 0; i < player.hand.length; i++){
+    for (let i = 0; i < dealer.hand.length; i++){
         if (dealer.hand[i].name == "Ace of spades" && dealerFinalScore > 21) {
             dealerFinalScore = dealerFinalScore - 10;
         } 
