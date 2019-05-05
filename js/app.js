@@ -93,9 +93,8 @@ hitButton.addEventListener('click', () => {
 
 //---------------------->    STAY BUTTON
 stayButton.addEventListener('click', () => {
-    
     dealerHandValue();
-    
+    playerHandValue();
     // setTimeout(function() {
         dealerAI();
     // },200);
