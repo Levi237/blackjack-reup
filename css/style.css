@@ -11,8 +11,13 @@ body {
     width: 800px;
     margin: auto;
 }
-/* DISPLAY WINDOW COUNTER */
+div {
+    border-top: red 2px dashed;
+    border-bottom: green 2px dashed;
+}
+/*******************************    DISPLAY WINDOW COUNTER *******************************/
 .big-box {
+    display: none;
     position: absolute;
     right: 0;
     z-index: 100;
@@ -47,13 +52,14 @@ body {
     border-top: 3px solid black;
     border-bottom: 3px solid black;
 }
-/* BUTTON ATTRIBUTES */
+/*******************************    BUTTON ATTRIBUTES   *******************************/
+
 .button {
     float: left;
     width: 80px;
     height: 80px;
     margin: 5px 6px;
-    font-size: 24px;
+    font-size: 20px;
     text-align: center;
     font-family: Georgia, 'Times New Roman', Times, serif;
     cursor: pointer;
@@ -61,8 +67,8 @@ body {
     color: #000;
     background-image: radial-gradient( rgb(253, 190, 44), rgb(78, 57, 6));
     background-color: rgb(253, 190, 44);
-    border: 1px solid rgb(78, 57, 6);
-    border-radius: 100%; 
+    border: 6px dashed rgb(78, 57, 6);
+    border-radius: 225px; 
     box-shadow: 0 5px 5px 0 #000;
 }
 .button:hover {
@@ -79,7 +85,13 @@ body {
     width: 460px;
     margin-right: 2px;
     margin-left: 2px;
-    /* float: left; */
+}
+#start-button {
+    position: absolute;
+    z-index: 1000000;
+    width: 264px;
+    margin: 50px 100px;
+    display: block;
 }
 #buy-button {
     visibility: hidden;
@@ -116,25 +128,54 @@ footer {
     height: 16rem;
     margin: 2rem auto 1rem auto;   
 }
-#player {
-    width: auto;
+
+
+/*******************************    SPLIT MESS   *******************************/
+/* .split-right {
+    float: right;
+} */
+.player {
+    width: 464px;
     float: left;
     /* width: 50%; */
-    padding-top: 1em;
+    /* padding-top: 1em; */
     position: relative;
 }
-
 /* SPLIT */
 /* .player-split {
     width: 50%;
 } */
-#dealer{
-    width: auto;
-    padding-bottom: 1em;
+
+#split-hand {
+    display: none;
+    /* visibility: hidden; */
+    position: relative;
+    width: 464px;
 }
 
-/* CONTENT */
+.hide-split-button {
+    display: none;
+    /* visibility: hidden; */
+    position: absolute;
+    z-index: 100000;
+    width: 264px;
+    margin: 25px 100px;
+}
+.no-split {
+    margin-top: 125px;
+}
 
+
+
+
+/*******************************    DEALER   *******************************/
+#dealer{
+    width: auto;
+    padding-bottom: 2em;
+}
+
+/*******************************    CONTENT   *******************************/
+/* CONTENT */
 h1 {
     position: sticky;
     top: 0;
@@ -161,16 +202,18 @@ h3 {
     text-shadow:  10px 15px rgb(56, 56, 56, .5); 
     margin-top: 0;
 }
+
+/*******************************    ANIMATION   *******************************/
 .fade {
     text-align: center;
     -webkit-animation: fadein 5s; 
             animation: fadein 5s;
 }
-.fade2 {
+/* .fade2 {
     text-align: center;
-    -webkit-animation: fadein 7s; 
-            animation: fadein 7s;
-}
+    -webkit-animation: fadein 15s; 
+            animation: fadein 15s;
+} */
 @keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
