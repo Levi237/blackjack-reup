@@ -6,6 +6,7 @@
 //opening page?
 //restart option
 
+// why is it that sometimes the card gets unshifted into the wrong place in the array?
 
 //----------------------> CLASS OBJECT
 class Player {
@@ -25,7 +26,7 @@ let deck = [];
 let shuffledDeck = [];
 let playerFinalScore = 0;
 let dealerFinalScore = 0;
-let dealerCall = [];
+let dealerAICall = [];
 let alert = document.querySelector("#alert")
 const getSum = (total, num) => {return total + num;}
 
@@ -61,7 +62,6 @@ playButton.addEventListener('click', () => {
         displayDeal();
         showMoney();
         playerStartScore();
-        
         document.getElementById("dealer-score").innerText = dealer.hand[1].value + "+?";
     } else {
         buyIn()
@@ -96,6 +96,7 @@ hitButton.addEventListener('click', () => {
 stayButton.addEventListener('click', () => {
     playerHandValue();
     dealerHandValue();
+    cardReveal();
     // setTimeout(function() {
     dealerAI();
     // },200);
@@ -255,17 +256,16 @@ const playerHandValue = () => {
             playerFinalScore = playerFinalScore - 10;
         } 
     }
-    if (playerFinalScore > 21) { //
-        alert.innerText = "Bust"; //
-       stayButton.setAttribute('disabled', true); //
-       } //
 }
 
 const dealerHandValue = () => {
+    let dealerCall = [];
     for (let d = 0; d < dealer.hand.length; d++){
         dealerCall.push(dealer.hand[d].value);
         }
+
         dealerFinalScore = dealerCall.reduce(getSum);
+
     for (let i = 0; i < dealer.hand.length; i++){
         if (dealer.hand[i].name == "Ace of spades" && dealerFinalScore > 21) {
             dealerFinalScore = dealerFinalScore - 10;
@@ -286,28 +286,18 @@ const dealerHandValue = () => {
        } //
 }
 //---------------------->    AI - DEALER HIT  -->  STAY button
+const cardReveal = () => document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r${dealer.hand[0].face}`;
 const  dealerAI = () => {
-document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r${dealer.hand[0].face}`;
+
     while (dealerFinalScore < playerFinalScore && playerFinalScore <= 21 || dealerFinalScore < 12 && dealerFinalScore === playerFinalScore) {
         let card = shuffledDeck.shift();
         dealer.hand.unshift(card);
-        dealerCall.unshift(card.value);
-        dealerFinalScore = dealerCall.reduce(getSum);
-        displayDealerCard();    
-    }
-    for (let d = 0; d < dealer.hand.length; d++) {  //---------------------->    IDK WHY THIS WORKS YET BUT IT DOES?
-        if (dealer.hand[d].face == "Ace" && dealerFinalScore > 21) {
-            dealerFinalScore = dealerFinalScore - 10;
-        }
-            if (dealerFinalScore < playerFinalScore && playerFinalScore <= 21){
-                let card = shuffledDeck.shift();
-                dealer.hand.unshift(card);
-                dealerCall.unshift(card.value);
-                dealerFinalScore = dealerCall.reduce(getSum);
-                displayDealerCard();
-            }
-        
-    }
+        displayDealerCard(); 
+        dealerAICall.unshift(card.value);
+        dealerFinalScore = dealerAICall.reduce(getSum);
+        dealerHandValue();
+          
+    }  
 }
 
 //---------------------->    DOUBLE DOWN
