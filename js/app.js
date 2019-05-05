@@ -39,6 +39,12 @@ const doubleButton = document.getElementById('double-button')  //--> Double Down
 const stayButton = document.getElementById('stay-button');
 const buyButton = document.getElementById('buy-button');
 //---------------------->    START GAME EVENT LISTENER
+if(playerFinalScore > 0) {
+    showPlayerScore();
+}
+
+
+
 playButton.addEventListener('click', () => {
     displayReset();
     stayButton.removeAttribute('disabled');
@@ -53,7 +59,10 @@ playButton.addEventListener('click', () => {
         shuffleCards();
         dealHand();
         displayDeal();
-        showMoney()
+        showMoney();
+        playerHandValue();
+        showPlayerScore();
+        document.getElementById("dealer-score").innerText = dealer.hand[1].value + "+?";
     } else {
         buyIn()
     }     
@@ -67,6 +76,8 @@ doubleButton.addEventListener('click', () => {
     dealerAI();
     doubleDown(); // why doesn't this work?
     showMoney(); 
+    showDealerScore();
+    showPlayerScore();
     doubleButton.setAttribute('disabled', true);
     hitButton.setAttribute('disabled', true);
     stayButton.setAttribute('disabled', true);
@@ -76,41 +87,21 @@ hitButton.addEventListener('click', () => {
     hitMe();
     displayPlayerCard();
     showMoney(); 
+    // handValue();
+    showPlayerScore();
 })
-//---------------------->    SPLIT BUTTON
-// splitButton.addEventListener('click', () => {
-//     prompt('this button does not work yet');
-// })
-//-------------------------------------------->    SPLIT PSEUDOCODE
-// if value === value
-// player.handS[Split[0].push and player.hand[0]splice
-// hitMe() to each hand
-// need to be able to separate buttons or add new buttons for second hand
-// need to make space for new cards
-//---------------------->    SPLIT HAND
-const split = () => {
-    let leftSplit = document.getElementById('player');
-    leftSplit.insertAdjacentHTML(`
-            <div id="player-split" class="center">
-                <div id="split-hand">
-                    <element id="blankSplit"></element>
-                </div>
-            </div>
-    `)
-    let ep = document.createElement("element");
-    ep.setAttribute("id","blankSplit")
-    childPlayer.appendChild(ep);
-
-}
 
 //---------------------->    STAY BUTTON
 stayButton.addEventListener('click', () => {
-    handValue();
+    playerHandValue();
+    dealerHandValue();
     // setTimeout(function() {
         dealerAI();
     // },200);
     callHand();
     showMoney();
+    showDealerScore();
+    showPlayerScore();
     stayButton.setAttribute('disabled', true);
 })
 //---------------------->    BUY IN BUTTON
@@ -169,6 +160,15 @@ const showRound = () => {
     let counter = player.round;
     document.getElementById("round").innerText = counter;
 }
+const showPlayerScore = () => {
+    let score = playerFinalScore;
+    document.getElementById("player-score").innerText = score;
+}
+const showDealerScore = () => {
+    let score = dealerFinalScore;
+    document.getElementById("dealer-score").innerText = score;
+}
+
 //---------------------->    CLEAR FIELD
 const clearField = () => {
     player.hand = [];
@@ -177,6 +177,8 @@ const clearField = () => {
     shuffledDeck = [];
     player.round++;
     dealerCall = [];
+    dealerFinalScore = 0;
+    playerFinalScore = 0;
 }
 //---------------------->    BUILD A DECK
 const makeDeck = () => {
@@ -220,25 +222,55 @@ const hitMe = () => {
     let card = shuffledDeck.shift();
     player.hand.unshift(card);
 }
-//---------------------->   PLAYER HAND VALUE  -->  STAY button
+//---------------------->   HAND VALUES
 
-const handValue = () => {
+const playerHandValue = () => {
     let playerCall = [];
     for (let i = 0; i < player.hand.length; i++){
         playerCall.push(player.hand[i].value);
     }
-    for (let d = 0; d < dealer.hand.length; d++){
-        dealerCall.push(dealer.hand[d].value);
-        }
-        playerFinalScore = playerCall.reduce(getSum);
-        dealerFinalScore = dealerCall.reduce(getSum);
+    playerFinalScore = playerCall.reduce(getSum);
     for (let i = 0; i < player.hand.length; i++){
-        if (player.hand[i].face == "Ace" && playerFinalScore > 21) {
+        if (player.hand[i].name == "Ace of spades" && playerFinalScore > 21) {
+            playerFinalScore = playerFinalScore - 10;
+        } 
+        if (player.hand[i].name == "Ace of hearts" && playerFinalScore > 21) {
+            playerFinalScore = playerFinalScore - 10;
+        } 
+        if (player.hand[i].name == "Ace of diamonds" && playerFinalScore > 21) {
+            playerFinalScore = playerFinalScore - 10;
+        } 
+        if (player.hand[i].name == "Ace of clubs" && playerFinalScore > 21) {
             playerFinalScore = playerFinalScore - 10;
         } 
     }
     if (playerFinalScore > 21) { //
         alert.innerText = "Bust"; //
+       stayButton.setAttribute('disabled', true); //
+       } //
+}
+const dealerHandValue = () => {
+    let dealerCall = [];
+    for (let d = 0; d < dealer.hand.length; d++){
+        dealerCall.push(dealer.hand[d].value);
+        }
+        dealerFinalScore = dealerCall.reduce(getSum);
+    for (let i = 0; i < player.hand.length; i++){
+        if (dealer.hand[i].name == "Ace of spades" && dealerFinalScore > 21) {
+            dealerFinalScore = dealerFinalScore - 10;
+        } 
+        if (dealer.hand[i].name == "Ace of hearts" && dealerFinalScore > 21) {
+            dealerFinalScore = dealerFinalScore - 10;
+        } 
+        if (dealer.hand[i].name == "Ace of diamonds" && dealerFinalScore > 21) {
+            dealerFinalScore = dealerFinalScore - 10;
+        } 
+        if (dealer.hand[i].name == "Ace of clubs" && dealerFinalScore > 21) {
+            dealerFinalScore = dealerFinalScore - 10;
+        } 
+    }
+    if (dealerFinalScore > 21) { //
+        alert.innerText = "Dealer Bust"; //
        stayButton.setAttribute('disabled', true); //
        } //
 }
@@ -255,6 +287,7 @@ document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r
     for (let d = 0; d < dealer.hand.length; d++) {  //---------------------->    IDK WHY THIS WORKS YET BUT IT DOES?
         if (dealer.hand[d].face == "Ace" && dealerFinalScore > 21) {
             dealerFinalScore = dealerFinalScore - 10;
+        }
             if (dealerFinalScore < playerFinalScore && playerFinalScore <= 21){
                 let card = shuffledDeck.shift();
                 dealer.hand.unshift(card);
@@ -262,7 +295,7 @@ document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r
                 dealerFinalScore = dealerCall.reduce(getSum);
                 displayDealerCard();
             }
-        }
+        
     }
 }
 

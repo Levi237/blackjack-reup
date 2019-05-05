@@ -68,11 +68,8 @@ div {
     position: absolute;
     top: 1;
     z-index: 5000;
-    width: 464px;
+    width: auto;
     margin-top: 66px;
-    margin-left: auto; 
-    margin-right: auto; 
-    padding: auto;  
     text-align: center;
 }
 /*------------------------------ ALERT ------------------------------*/
