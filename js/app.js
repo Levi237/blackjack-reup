@@ -60,7 +60,8 @@ playButton.addEventListener('click', () => {
         dealHand();
         displayDeal();
         showMoney();
-        document.getElementById("player-score").innerText = player.hand[0].value + player.hand[1].value;
+        playerStartScore();
+        
         document.getElementById("dealer-score").innerText = dealer.hand[1].value + "+?";
     } else {
         buyIn()
@@ -93,10 +94,10 @@ hitButton.addEventListener('click', () => {
 
 //---------------------->    STAY BUTTON
 stayButton.addEventListener('click', () => {
-    dealerHandValue();
     playerHandValue();
+    dealerHandValue();
     // setTimeout(function() {
-        dealerAI();
+    dealerAI();
     // },200);
     callHand();
     showMoney();
@@ -180,6 +181,14 @@ const clearField = () => {
     dealerFinalScore = 0;
     playerFinalScore = 0;
 }
+const playerStartScore = () => {
+    let score =  player.hand[0].value + player.hand[1].value;
+    if (score > 21) {
+        score = 12
+    }
+    document.getElementById("player-score").innerText = score;
+}
+
 //---------------------->    BUILD A DECK
 const makeDeck = () => {
     const suits = ["spades", "hearts", "diamonds", "clubs"];
