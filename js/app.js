@@ -78,9 +78,9 @@ hitButton.addEventListener('click', () => {
     showMoney(); 
 })
 //---------------------->    SPLIT BUTTON
-splitButton.addEventListener('click', () => {
-    prompt('this button does not work yet');
-})
+// splitButton.addEventListener('click', () => {
+//     prompt('this button does not work yet');
+// })
 //-------------------------------------------->    SPLIT PSEUDOCODE
 // if value === value
 // player.handS[Split[0].push and player.hand[0]splice

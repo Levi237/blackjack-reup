@@ -1,5 +1,6 @@
 html {
     height: 100%;
+    width: 100%;
     background-color: #000;/* rgb(11, 73, 11); */
     background-image: radial-gradient( rgb(11, 73, 11),  rgb(12, 90, 12), #000);
     background-size: cover;
@@ -11,7 +12,71 @@ body {
     width: 800px;
     margin: auto;
 }
-/*******************************    DISPLAY WINDOW COUNTER *******************************/
+div {
+    border-bottom: red 2px dashed;
+    border-top: green 2px dashed;
+}
+
+/******************************* GRID CONTAINER *******************************/
+.grid-header { 
+    grid-area: header; 
+    text-align: center;
+}
+.grid-left {
+    grid-area: left;
+    width: 100%;
+
+}
+.grid-main {
+    grid-area: main;
+}
+.grid-right {
+    grid-area: right;
+}
+.grid-footer {
+    grid-area: footer;
+}
+.grid-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto;
+    grid-auto-rows: auto;
+    justify-items: stretch;
+    align-items: center;
+  grid-template-areas:
+    'header header header'
+    'left main right'
+    'footer footer footer';
+     grid-gap: 0;
+}
+
+/*------------------------------ GRID CONTAINER ------------------------------*/
+/*******************************    HANDS   *******************************/
+.dealer, .player{
+
+}
+#player-hand, #dealer-hand {
+    height: 100px;
+    width: auto;
+    text-align: center;
+}
+
+
+/*------------------------------    HANDS   ------------------------------*/
+/******************************* ALERT *******************************/
+#table-cover {
+    position: absolute;
+    top: 1;
+    z-index: 5000;
+    width: 464px;
+    margin-top: 66px;
+    margin-left: auto; 
+    margin-right: auto; 
+    padding: auto;  
+    text-align: center;
+}
+/*------------------------------ ALERT ------------------------------*/
+/******************************* DISPLAY WINDOW COUNTER *******************************/
 .big-box {
     display: none;
     position: absolute;
@@ -51,7 +116,7 @@ body {
 /*******************************    BUTTON ATTRIBUTES   *******************************/
 
 .button {
-    float: left;
+    display: inline-block;
     width: 80px;
     height: 80px;
     margin: 5px 6px;
@@ -78,7 +143,9 @@ body {
     transform: translateY(4px);
 }
 #button-holder {
-    width: 460px;
+    width: auto;
+    text-align: center;
+    box-align: center;
     margin-right: 2px;
     margin-left: 2px;
 }
@@ -96,79 +163,9 @@ body {
     width: 264px;
     margin: 50px 100px;
 }
-/* GAME BOARD */
-header {
-    width: 464px;
-    height: 6rem;
-    margin: 3rem auto 1rem auto;      
-}
-footer {
-    width: 464px;
-    height: 6rem;
-    margin: 1rem auto 1rem auto;   
-}
-#table-cover {
-    position: absolute;
-    top: 1;
-    z-index: 5000;
-    width: 464px;
-    margin-top: 66px;
-    margin-left: auto; 
-    margin-right: auto; 
-    padding: auto;  
-    text-align: center;
-}
-#game-table {
-    position: relative;
-    width: 464px;
-    height: 16rem;
-    margin: 2rem auto 1rem auto;   
-}
-
-
-/*******************************    SPLIT MESS   *******************************/
-/* .split-right {
-    float: right;
-} */
-.player {
-    width: 464px;
-    float: left;
-    /* width: 50%; */
-    /* padding-top: 1em; */
-    position: relative;
-}
-/* SPLIT */
-/* .player-split {
-    width: 50%;
-} */
-
-#split-hand {
-    display: none;
-    /* visibility: hidden; */
-    position: relative;
-    width: 464px;
-}
-
-.hide-split-button {
-    display: none;
-    /* visibility: hidden; */
-    position: absolute;
-    z-index: 100000;
-    width: 264px;
-    margin: 25px 100px;
-}
-.no-split {
-    margin-top: 125px;
-}
 
 
 
-
-/*******************************    DEALER   *******************************/
-#dealer{
-    width: auto;
-    padding-bottom: 2em;
-}
 
 /*******************************    CONTENT   *******************************/
 /* CONTENT */
@@ -180,6 +177,7 @@ h1 {
     text-align: center;
     font-family: 'Berkshire Swash', Georgia, 'Times New Roman', Times, serif;
     text-shadow: #000;
+    margin: 6% 0 0 0;
 }
 h2 {
     display: block;
@@ -195,7 +193,7 @@ h3 {
     color: rgb(48, 0, 0);
     font-size: 60px;
     font-family: 'Berkshire Swash', Georgia, 'Times New Roman', Times, serif;
-    text-shadow:  10px 15px rgb(56, 56, 56, .5); 
+    text-shadow:  10px 15px gold, .5); 
     margin-top: 0;
 }
 

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Black Jack</title>
+    <script src="js/app.js" defer></script>
+    <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/ux.css">
+    <link rel="stylesheet" type="text/css" href="css/cardstarter.css">
+</head>
+<body>
+    <header>
+            <h1 id="sign" class="fade">BlackJack </h1>
+            <button id="buy-button" class="button">BUY $100</button>
+    </header>   
+
+<div class="grid-container">
+<div class="grid-left">SOMETHING</div>
+    <div id="game-table" class="grid-main">
+        <div id="table-cover">
+            
+                <h3 id="alert"></h3>
+            
+        </div>
+        <div class="big-box fade2">
+            <div id="box-right" class="box">
+                <h2 id="chips">100</h2>
+                <h2 id="round">1</h2>
+            </div>
+            <div id="box-left" class="box">
+                <h2>$</h2>
+                <h2>Round:</h2>
+            </div>
+        </div>
+        
+            <div id="dealer-hand">
+                <element id="blankDealer"></element>
+                <element class="transitOpen fade card back-red"></element>
+                <element class="transitOpen fade card back-red"></element>
+                <element class="transitOpen fade card back-red"></element>
+                <element class="transitOpen fade card back-red"></element>
+                <element class="transitOpen fade card back-red"></element>
+                <element class="transitOpen fade card back-red"></element>
+            </div>
+       
+            <div id="player-hand">
+                <element id="blankPlayer"></element>
+                <element class="split transitOpen fade card back-red"></element>
+                <element class="split transitOpen fade card back-red"></element>
+                <element class="split transitOpen fade card back-red"></element>
+                <element class="split transitOpen fade card back-red"></element>
+                <element class="split transitOpen fade card back-red"></element>
+                <element class="split transitOpen fade card back-red"></element>
+            </div>
+        
+    
+    <footer>
+        <div id="button-holder" class="fade2">
+            <button id="play-button" class="button">PLAY</button>
+            
+            <button id="hit-button" class="button">HIT</button>
+            
+            <button id="stay-button" class="button">STAY</button>
+
+        </div>
+    </footer>
+</div>
+
+    <div class="grid-right">
+            <button id="double-button" class="button">DBL DWN</button>
+    </div>
+</div>
+
+</body>
+</html>
