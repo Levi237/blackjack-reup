@@ -10,6 +10,7 @@
 //opening page?
 //restart option
 
+// why is it that sometimes the card gets unshifted into the wrong place in the array?
 
 //----------------------> CLASS OBJECT
 class Player {
@@ -30,9 +31,7 @@ let deck = [];
 let shuffledDeck = [];
 let playerFinalScore = 0;
 let dealerFinalScore = 0;
-let dealerCall = [];
-let playerSplitHand = [];
-let playerSplitScore = 0;
+let dealerAICall = [];
 let alert = document.querySelector("#alert")
 const getSum = (total, num) => {return total + num;}
 
@@ -42,23 +41,18 @@ const startButton = document.getElementById('start-button');
 const playButton = document.getElementById('play-button');
 const splitHitButton = document.getElementById('split-hit-button');
 const hitButton = document.getElementById('hit-button');
-const doubleButton = document.getElementById('double-button');
-const splitButton = document.getElementById('split-button');  //--> change rule so dealer quits at 17
-const splitNoButton = document.getElementById('split-no-button');
-
+const splitButton = document.getElementById('split-button')  //--> change rule so dealer quits at 17
+const doubleButton = document.getElementById('doubleButton')  //--> Double Down
+// const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 const stayButton = document.getElementById('stay-button');
 const buyButton = document.getElementById('buy-button');
-
-const splitStayButton = document.getElementById('split-stay-button');
-// const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 
 //---------------------->    START GAME EVENT LISTENER
 playButton.addEventListener('click', () => {
     displayReset();
-    eraseSplit();
-    stayButton.removeAttribute('disabled');
-    doubleButton.removeAttribute('disabled');
-    hitButton.removeAttribute('disabled');//dd
+    buttonsOn();
+    playBtnOff();
+    windowOn();
     alert.innerText = "";
     if (player.chips > 0) {
         player.chips -= 1;
@@ -69,7 +63,8 @@ playButton.addEventListener('click', () => {
         dealHand();
         displayDeal();
         showMoney();
-        splitDetector();
+        playerStartScore();
+        document.getElementById("dealerScore").innerText = dealer.hand[1].value + "+?";
     } else {
         buyIn();
     }     
@@ -83,237 +78,40 @@ doubleButton.addEventListener('click', () => {
     }
     hitMe();
     displayPlayerCard();
-    handValue();
+    cardReveal();
+    playerHandValue();
+    dealerHandValue();
     dealerAI();
     doubleDown(); // why doesn't this work?
     showMoney(); 
-    doubleButton.setAttribute('disabled', true);
-    hitButton.setAttribute('disabled', true);
-    stayButton.setAttribute('disabled', true);
+    showDealerScore();
+    showPlayerScore();
+    buttonsOff();
+    playBtnOn();
 })
 //---------------------->    HIT BUTTON
 hitButton.addEventListener('click', () => {
     hitMe();
     displayPlayerCard();
-    showMoney(); 
+    showMoney();
+    playerHandValue(); 
+    showPlayerScore();
 })
-
-
-startButton.addEventListener('click', () => {
-    displayReset();
-    startClear();
-    statsBox(); /// put this in a start button
-})
-
-const startClear = () => {
-    let startBtn = document.querySelector('#start-button');
-        startBtn.style.display = "none";
-        alert.innerText = "Click Play to Start";
-}
-
-const statsBox = () => {
-    const bigBox = document.querySelector('big-box').
-    bigBox.style.display = "block";
-}
-
-
-
-
-//---------------------->    OPT NO SPLIT BUTTON
-splitNoButton.addEventListener('click', () => {
-    let noBtn = document.querySelector('#split-no-button');
-    let splitBtn = document.querySelector('#split-button');
-        noBtn.style.display = "none";
-        splitBtn.style.display = "none";
-})
-
-
-
-
-//---------------------->    SPLIT BUTTON
-splitButton.addEventListener('click', () => {
-    player.chips -= 1;
-    showMoney(); 
-    switchSplitBtns();
-    splitHand();
-    displayPlayerSplitCard();
-    document.querySelector('#split-no-button').style.display = "none";
-})
-const splitDetector = () => {
-    let noBtn = document.querySelector('#split-no-button');
-    let splitBtn = document.querySelector('#split-button');
-    if (player.hand[0].value === player.hand[1].value){
-        splitBtn.style.display = "block";
-        noBtn.style.display = "block";
-    }
-}
-// TURN OFF SPLIT BUTTON AND OPEN SECOND HAND
-const switchSplitBtns = () => {
-    document.querySelector('#split-button').style.display = "none"; // removes split button
-    document.querySelector('#split-hand').style.display = "block"; // displays second hand
-    // document.querySelector('#blankSplit').insertAdjacentHTML = `<button id="split-hit-button" class="button">SPLIT HIT</button>`
-}
-
-// MOVE CARD TO SECOND HAND
-const splitHand = () => { 
-    playerSplitHand.unshift(player.hand[0]);
-    player.hand.shift()
-}
-const displayPlayerSplitCard = () => {
-    document.getElementById("blankSplit").insertAdjacentHTML("beforebegin", `<element class="fade card ${playerSplitHand[0].suit} r${playerSplitHand[0].face}"></element>`);
-    let card = document.getElementById("player-hand");
-    card.removeChild(card.childNodes[0]);
-}
-//---------------------->    SPLIT HIT BUTTON - this works
-// This split that appears does not have the ablilty to deal but the split outside of the div does.
-splitHitButton.addEventListener('click', () => {
-    splitHitMe();
-})
-const splitHitMe = () => {
-    let card = shuffledDeck.shift();
-    playerSplitHand.unshift(card);
-    document.getElementById("blankSplit").insertAdjacentHTML("beforebegin", `<element class="slide card ${playerSplitHand[0].suit} r${playerSplitHand[0].face}"></element>`);
-}
-// const displayHitSplitCard = () => {
-//     document.getElementById("blankSplit").insertAdjacentHTML("beforebegin", `<element class="slide card ${playerSplitHand[0].suit} r${playerSplitHand[0].face}"></element>`);
-// }
-//---------------------->    SPLIT
-
-//--> this button does not work yet
-// splitStayButton.addEventListener('click', () => {
-//     console.log("hi split stay button")
-// })
-
-const splitValue = () => {
-    let splitCall = [];
-    for (let i = 0; i < player.hand.length; i++){
-        splitCall.push(player.hand[i].value);
-    }
-        playerFinalScore = splitCall.reduce(getSum);
-        dealerFinalScore = dealerCall.reduce(getSum);
-    for (let i = 0; i < playerSplitHand.length; i++){
-        if (playerSplitHand[i].face == "Ace" && playerSplitScore > 21) {
-            playerSplitScor = playerSplitScor - 10;
-        } 
-    }
-    if (playerSplitScor > 21) { //
-        alert.innerText = "Split Bust"; //
-       } //
-}
-
-//---------------------->    CLEAR SPLIT - this works
-const eraseSplit = () => {
-    let hand = document.querySelector('#split-hand');
-    hand.style.display = "none";
-    playerSplitHand = [];
-    hand.innerHTML = `<div class="player"><element id="blankSplit" class="player"></element></div>`;  
-}
-
-// //---------------------->    AI - DEALER HIT  -->  STAY button
-// const  dealerAI = () => {
-// document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r${dealer.hand[0].face}`;
-//     while (dealerFinalScore < playerFinalScore && playerFinalScore <= 21 || dealerFinalScore < 12 && dealerFinalScore === playerFinalScore) {
-//         let card = shuffledDeck.shift();
-//         dealer.hand.unshift(card);
-//         dealerCall.unshift(card.value);
-//         dealerFinalScore = dealerCall.reduce(getSum);
-//         displayDealerCard();    
-//     }
-//     for (let d = 0; d < dealer.hand.length; d++) {  //---------------------->    IDK WHY THIS WORKS YET BUT IT DOES?
-//         if (dealer.hand[d].face == "Ace" && dealerFinalScore > 21) {
-//             dealerFinalScore = dealerFinalScore - 10;
-//             if (dealerFinalScore < playerFinalScore && playerFinalScore <= 21){
-//                 let card = shuffledDeck.shift();
-//                 dealer.hand.unshift(card);
-//                 dealerCall.unshift(card.value);
-//                 dealerFinalScore = dealerCall.reduce(getSum);
-//                 displayDealerCard();
-//             }
-//         }
-//     }
-// }
-
-// //---------------------->    DOUBLE DOWN
-// if (playerSplitHand.length > 0){
-//     doubleDown()
-// }
-
-
-
-// const doubleDown = () => {  
-    //     if (playerFinalScore <= 21 && playerFinalScore > dealerFinalScore || playerFinalScore <= 21 &&  dealerFinalScore > 21) {
-    //         player.chips += 3;
-    //     }
-    //     if (playerFinalScore === dealerFinalScore){
-    //         player.chips += 1;
-    //     }
-    //     if (playerSplitScore <= 21 && playerSplitScore > dealerFinalScore || playerSplitScore <= 21 &&  dealerFinalScore > 21) {
-    //         player.chips += 3;
-    //     }
-    //     if (playerSplitScore === dealerFinalScore){
-    //         player.chips += 1;
-    //     }
-//     callHand();
-// };
-
-// //---------------------->    PLAY HAND  -->  STAY button
-// const callHand = () => {
-//     if (playerFinalScore === 21) {
-//         alert.innerText = "21!";
-//     } if (dealerFinalScore > 21 && playerFinalScore <= 21) {
-//         player.chips += 3;
-//         if (playerFinalScore < 17 && dealerFinalScore > 21){
-//         alert.innerText = "Dealer Bust!";
-//         } else {
-//             alert.innerText = "You Win!";
-//         }
-//     } else if (playerFinalScore <= 21 && playerFinalScore > dealerFinalScore) {
-//         player.chips += 3;
-//         alert.innerText = "You Win!";
-//     } else if (playerFinalScore <= 21 && playerFinalScore === dealerFinalScore) {
-//         player.chips++;
-//         alert.innerText = "Push";
-//     } else if (playerFinalScore < dealerFinalScore && dealerFinalScore <= 21) {
-//         alert.innerText = "House Wins";  
-//     }
-//     //-------->  anything else need to go in here?
-// };
-
-
-
-
-
-
-
-// need split STAY option
-
-//-------------------------------------------->    SPLIT PSEUDOCODE
-
-
-// const thirdSplitDetector = () => {}
-// thirdSplitDetector()
-//---------------------->    SPLIT HAND
-//---------------------->    SHOW MOVED SPLIT CARD
-
-
-
-
-
-
-
-
-
-
 
 //---------------------->    STAY BUTTON
 stayButton.addEventListener('click', () => {
-    handValue();
+    playerHandValue();
+    dealerHandValue();
+    cardReveal();
     // setTimeout(function() {
-        dealerAI();
+    dealerAI();
     // },200);
     callHand();
     showMoney();
-    stayButton.setAttribute('disabled', true);
+    showDealerScore();
+    showPlayerScore();
+    buttonsOff();
+    playBtnOn();
 })
 //---------------------->    BUY IN BUTTON
 buyButton.addEventListener('click', () => {
@@ -321,6 +119,49 @@ buyButton.addEventListener('click', () => {
     showMoney();
     buyButton.style.visibility = "hidden";
 })
+//---------------------->    BUTTON ON/OFF SWITCHES
+const windowOn = () => {
+    let box = document.querySelector('.big-box');
+    box.style.visibility = "visible";
+    let double = document.getElementById('doubleButton');
+    double.style.visibility = "visible";
+}
+
+const playBtnOn = () => {
+    playButton.classList.add('gold');
+    playButton.classList.remove('gray');
+    playButton.removeAttribute('disabled');
+}
+
+const playBtnOff = () => {
+    playButton.setAttribute('disabled', true);
+    playButton.classList.add('gray');
+    playButton.classList.remove('gold');
+}
+
+const buttonsOn = () => {
+    stayButton.classList.add('gold');
+    stayButton.classList.remove('gray');
+    stayButton.removeAttribute('disabled');
+    doubleButton.classList.add('gold');
+    doubleButton.classList.remove('gray');
+    doubleButton.removeAttribute('disabled');
+    hitButton.classList.add('gold');
+    hitButton.classList.remove('gray');
+    hitButton.removeAttribute('disabled');
+}
+
+const buttonsOff = () => {
+    doubleButton.setAttribute('disabled', true);
+    doubleButton.classList.add('gray');
+    doubleButton.classList.remove('gold');
+    hitButton.setAttribute('disabled', true);
+    hitButton.classList.add('gray');
+    hitButton.classList.remove('gold');
+    stayButton.setAttribute('disabled', true);
+    stayButton.classList.add('gray');
+    stayButton.classList.remove('gold');
+}
 //---------------------->    DEAL CARD VISUAL
 const displayDeal = () => {
     let blankPlayer = document.querySelector("#blankPlayer");
@@ -372,6 +213,15 @@ const showRound = () => {
     let counter = player.round;
     document.getElementById("round").innerText = counter;
 }
+const showPlayerScore = () => {
+    let score = playerFinalScore;
+    document.getElementById("player-score").innerText = score;
+}
+const showDealerScore = () => {
+    let score = dealerFinalScore;
+    document.getElementById("dealerScore").innerText = score;
+}
+
 //---------------------->    CLEAR FIELD
 const clearField = () => {
     player.hand = [];
@@ -381,7 +231,17 @@ const clearField = () => {
     shuffledDeck = [];
     player.round++;
     dealerCall = [];
+    dealerFinalScore = 0;
+    playerFinalScore = 0;
 }
+const playerStartScore = () => {
+    let score =  player.hand[0].value + player.hand[1].value;
+    if (score > 21) {
+        score = 12
+    }
+    document.getElementById("player-score").innerText = score;
+}
+
 //---------------------->    BUILD A DECK
 const makeDeck = () => {
     const suits = ["spades", "hearts", "diamonds", "clubs"];
@@ -426,48 +286,70 @@ const hitMe = () => {
 }
 //---------------------->   PLAYER HAND VALUE  -->  STAY button
 
-const handValue = () => {
+const playerHandValue = () => {
     let playerCall = [];
     for (let i = 0; i < player.hand.length; i++){
         playerCall.push(player.hand[i].value);
     }
-    for (let d = 0; d < dealer.hand.length; d++){
-        dealerCall.push(dealer.hand[d].value);
-        }
+
         playerFinalScore = playerCall.reduce(getSum);
-        dealerFinalScore = dealerCall.reduce(getSum);
+
     for (let i = 0; i < player.hand.length; i++){
-        if (player.hand[i].face == "Ace" && playerFinalScore > 21) {
+        if (player.hand[i].name == "Ace of spades" && playerFinalScore > 21) {
+            playerFinalScore = playerFinalScore - 10;
+        } 
+        if (player.hand[i].name == "Ace of hearts" && playerFinalScore > 21) {
+            playerFinalScore = playerFinalScore - 10;
+        } 
+        if (player.hand[i].name == "Ace of diamonds" && playerFinalScore > 21) {
+            playerFinalScore = playerFinalScore - 10;
+        } 
+        if (player.hand[i].name == "Ace of clubs" && playerFinalScore > 21) {
             playerFinalScore = playerFinalScore - 10;
         } 
     }
-    if (playerFinalScore > 21) { //
-        alert.innerText = "Bust"; //
+}
+
+const dealerHandValue = () => {
+    let dealerCall = [];
+    for (let d = 0; d < dealer.hand.length; d++){
+        dealerCall.push(dealer.hand[d].value);
+        }
+
+        dealerFinalScore = dealerCall.reduce(getSum);
+
+    for (let i = 0; i < dealer.hand.length; i++){
+        if (dealer.hand[i].name == "Ace of spades" && dealerFinalScore > 21) {
+            dealerFinalScore = dealerFinalScore - 10;
+        } 
+        if (dealer.hand[i].name == "Ace of hearts" && dealerFinalScore > 21) {
+            dealerFinalScore = dealerFinalScore - 10;
+        } 
+        if (dealer.hand[i].name == "Ace of diamonds" && dealerFinalScore > 21) {
+            dealerFinalScore = dealerFinalScore - 10;
+        } 
+        if (dealer.hand[i].name == "Ace of clubs" && dealerFinalScore > 21) {
+            dealerFinalScore = dealerFinalScore - 10;
+        } 
+    }
+    if (dealerFinalScore > 21) { //
+        alert.innerText = "Dealer Bust"; //
        stayButton.setAttribute('disabled', true); //
        } //
 }
 //---------------------->    AI - DEALER HIT  -->  STAY button
+const cardReveal = () => document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r${dealer.hand[0].face}`;
 const  dealerAI = () => {
-document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r${dealer.hand[0].face}`;
+
     while (dealerFinalScore < playerFinalScore && playerFinalScore <= 21 || dealerFinalScore < 12 && dealerFinalScore === playerFinalScore) {
         let card = shuffledDeck.shift();
         dealer.hand.unshift(card);
-        dealerCall.unshift(card.value);
-        dealerFinalScore = dealerCall.reduce(getSum);
-        displayDealerCard();    
-    }
-    for (let d = 0; d < dealer.hand.length; d++) {  //---------------------->    IDK WHY THIS WORKS YET BUT IT DOES?
-        if (dealer.hand[d].face == "Ace" && dealerFinalScore > 21) { // does not make the third Ace a 1 when needed
-            dealerFinalScore = dealerFinalScore - 10;
-            if (dealerFinalScore < playerFinalScore && playerFinalScore <= 21){
-                let card = shuffledDeck.shift();
-                dealer.hand.unshift(card);
-                dealerCall.unshift(card.value);
-                dealerFinalScore = dealerCall.reduce(getSum);
-                displayDealerCard();
-            }
-        }
-    }
+        displayDealerCard(); 
+        dealerAICall.unshift(card.value);
+        dealerFinalScore = dealerAICall.reduce(getSum);
+        dealerHandValue();
+          
+    }  
 }
 
 //---------------------->    DOUBLE DOWN
