@@ -75,7 +75,7 @@ div {
 /*------------------------------ ALERT ------------------------------*/
 /******************************* DISPLAY WINDOW COUNTER *******************************/
 .big-box {
-    display: none;
+    visibility: hidden;
     position: absolute;
     right: 0;
     z-index: 100;
@@ -136,7 +136,12 @@ div {
     background-color: rgb(253, 190, 44);
     border: 6px dashed rgb(78, 57, 6);
 }
-
+.double-scale {
+    transform: scale(.8);
+    float: right;
+    position: relative;
+    font-size: 36px;
+}
 .gold:hover {
     background-image: radial-gradient( rgb(109, 79, 8), rgb(253, 190, 44));
     background-color:rgb(190, 154, 59);

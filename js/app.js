@@ -39,19 +39,13 @@ const doubleButton = document.getElementById('double-button')  //--> Double Down
 // const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 const stayButton = document.getElementById('stay-button');
 const buyButton = document.getElementById('buy-button');
+
 //---------------------->    START GAME EVENT LISTENER
-if(playerFinalScore > 0) {
-    showPlayerScore();
-}
-
-
-
 playButton.addEventListener('click', () => {
     displayReset();
-    stayBtnOn();
-    doubleBtnOn();
-    hitBtnOn();
+    buttonsOn();
     playBtnOff();
+    windowOn();
     alert.innerText = "";
     if (player.chips !== 0) {
         player.chips = player.chips - 1;
@@ -81,51 +75,9 @@ doubleButton.addEventListener('click', () => {
     showMoney(); 
     showDealerScore();
     showPlayerScore();
-    doubleBtnOff();
-    hitBtnOff();
-    stayBtnOff();
+    buttonsOff();
     playBtnOn();
 })
-const playBtnOn = () => {
-    playButton.classList.add('gold');
-    playButton.classList.remove('gray');
-    playButton.removeAttribute('disabled');
-}
-const stayBtnOn = () => {
-    stayButton.classList.add('gold');
-    stayButton.classList.remove('gray');
-    stayButton.removeAttribute('disabled');
-}
-const doubleBtnOn = () => {
-    doubleButton.classList.add('gold');
-    doubleButton.classList.remove('gray');
-    doubleButton.removeAttribute('disabled');
-}
-const hitBtnOn = () => {
-    hitButton.classList.add('gold');
-    hitButton.classList.remove('gray');
-    hitButton.removeAttribute('disabled');
-}
-const playBtnOff = () => {
-    playButton.setAttribute('disabled', true);
-    playButton.classList.add('gray');
-    playButton.classList.remove('gold');
-}
-const doubleBtnOff = () => {
-    doubleButton.setAttribute('disabled', true);
-    doubleButton.classList.add('gray');
-    doubleButton.classList.remove('gold');
-}
-const hitBtnOff = () => {
-    hitButton.setAttribute('disabled', true);
-    hitButton.classList.add('gray');
-    hitButton.classList.remove('gold');
-}
-const stayBtnOff = () => {
-    stayButton.setAttribute('disabled', true);
-    stayButton.classList.add('gray');
-    stayButton.classList.remove('gold');
-}
 //---------------------->    HIT BUTTON
 hitButton.addEventListener('click', () => {
     hitMe();
@@ -147,9 +99,7 @@ stayButton.addEventListener('click', () => {
     showMoney();
     showDealerScore();
     showPlayerScore();
-    hitBtnOff();
-    stayBtnOff();
-    doubleBtnOff();
+    buttonsOff();
     playBtnOn();
 })
 //---------------------->    BUY IN BUTTON
@@ -158,6 +108,47 @@ buyButton.addEventListener('click', () => {
     showMoney();
     buyButton.style.visibility = "hidden";
 })
+//---------------------->    BUTTON ON/OFF SWITCHES
+const windowOn = () => {
+    let box = document.querySelector('.big-box');
+    box.style.visibility = "visible";
+}
+
+const playBtnOn = () => {
+    playButton.classList.add('gold');
+    playButton.classList.remove('gray');
+    playButton.removeAttribute('disabled');
+}
+
+const playBtnOff = () => {
+    playButton.setAttribute('disabled', true);
+    playButton.classList.add('gray');
+    playButton.classList.remove('gold');
+}
+
+const buttonsOn = () => {
+    stayButton.classList.add('gold');
+    stayButton.classList.remove('gray');
+    stayButton.removeAttribute('disabled');
+    doubleButton.classList.add('gold');
+    doubleButton.classList.remove('gray');
+    doubleButton.removeAttribute('disabled');
+    hitButton.classList.add('gold');
+    hitButton.classList.remove('gray');
+    hitButton.removeAttribute('disabled');
+}
+
+const buttonsOff = () => {
+    doubleButton.setAttribute('disabled', true);
+    doubleButton.classList.add('gray');
+    doubleButton.classList.remove('gold');
+    hitButton.setAttribute('disabled', true);
+    hitButton.classList.add('gray');
+    hitButton.classList.remove('gold');
+    stayButton.setAttribute('disabled', true);
+    stayButton.classList.add('gray');
+    stayButton.classList.remove('gold');
+}
 //---------------------->    DEAL CARD VISUAL
 const displayDeal = () => {
     let blankPlayer = document.querySelector("#blankPlayer");

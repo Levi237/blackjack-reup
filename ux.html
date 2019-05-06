@@ -17,14 +17,10 @@
     </header>   
 
 <div class="grid-container">
-<div class="grid-left">SOMETHING</div>
-    <div id="game-table" class="grid-main">
-        <div id="table-cover">
-            
-                <h3 id="alert"></h3>
-            
-        </div>
-        <div class="big-box fade2">
+    <div class="grid-header">
+        <button id="double-button" class="double-scale gray">2<small>x</small></button>
+    
+    <div class="big-box">
             <div id="box-right" class="box">
                 <h2 id="chips">100</h2>
                 <h2 id="round">1</h2>
@@ -34,6 +30,18 @@
                 <h2>Round:</h2>
             </div>
         </div>
+    </div>
+    <div class="grid-left">SOMETHING</div>
+
+    <div id="game-table" class="grid-main">
+            
+        <div id="table-cover">
+            
+                <h3 id="alert"></h3>
+            
+        </div>
+        
+
         
             <div id="dealer-hand">
                 <element id="blankDealer"></element>
@@ -60,9 +68,9 @@
         <div id="button-holder" class="fade2">
             <button id="play-button" class="gold">PLAY</button>
             
-            <button id="hit-button" class="gold">HIT</button>
+            <button id="hit-button" class="gray">HIT</button>
             
-            <button id="stay-button" class="gold">STAY</button>
+            <button id="stay-button" class="gray">STAY</button>
 
         </div>
     </footer>
@@ -70,7 +78,7 @@
 
     <div class="grid-right">
         <div><h3 id="dealer-score">??</h3></div>
-            <button id="double-button" class="gold">DBL DWN</button>
+            
         <div><h3 id="player-score"></h3></div>
     </div>
 </div>
