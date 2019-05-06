@@ -48,9 +48,10 @@ if(playerFinalScore > 0) {
 
 playButton.addEventListener('click', () => {
     displayReset();
-    stayButton.removeAttribute('disabled');
-    doubleButton.removeAttribute('disabled');
-    hitButton.removeAttribute('disabled');//dd
+    stayBtnOn();
+    doubleBtnOn();
+    hitBtnOn();
+    playBtnOff();
     alert.innerText = "";
     if (player.chips !== 0) {
         player.chips = player.chips - 1;
@@ -72,23 +73,65 @@ doubleButton.addEventListener('click', () => {
     player.chips = player.chips - 1;
     hitMe();
     displayPlayerCard();
+    cardReveal();
+    playerHandValue();
     dealerHandValue();
     dealerAI();
     doubleDown(); // why doesn't this work?
     showMoney(); 
     showDealerScore();
     showPlayerScore();
-    doubleButton.setAttribute('disabled', true);
-    hitButton.setAttribute('disabled', true);
-    stayButton.setAttribute('disabled', true);
+    doubleBtnOff();
+    hitBtnOff();
+    stayBtnOff();
+    playBtnOn();
 })
+const playBtnOn = () => {
+    playButton.classList.add('gold');
+    playButton.classList.remove('gray');
+    playButton.removeAttribute('disabled');
+}
+const stayBtnOn = () => {
+    stayButton.classList.add('gold');
+    stayButton.classList.remove('gray');
+    stayButton.removeAttribute('disabled');
+}
+const doubleBtnOn = () => {
+    doubleButton.classList.add('gold');
+    doubleButton.classList.remove('gray');
+    doubleButton.removeAttribute('disabled');
+}
+const hitBtnOn = () => {
+    hitButton.classList.add('gold');
+    hitButton.classList.remove('gray');
+    hitButton.removeAttribute('disabled');
+}
+const playBtnOff = () => {
+    playButton.setAttribute('disabled', true);
+    playButton.classList.add('gray');
+    playButton.classList.remove('gold');
+}
+const doubleBtnOff = () => {
+    doubleButton.setAttribute('disabled', true);
+    doubleButton.classList.add('gray');
+    doubleButton.classList.remove('gold');
+}
+const hitBtnOff = () => {
+    hitButton.setAttribute('disabled', true);
+    hitButton.classList.add('gray');
+    hitButton.classList.remove('gold');
+}
+const stayBtnOff = () => {
+    stayButton.setAttribute('disabled', true);
+    stayButton.classList.add('gray');
+    stayButton.classList.remove('gold');
+}
 //---------------------->    HIT BUTTON
 hitButton.addEventListener('click', () => {
     hitMe();
     displayPlayerCard();
     showMoney();
     playerHandValue(); 
-    // dealerHandValue();
     showPlayerScore();
 })
 
@@ -104,7 +147,10 @@ stayButton.addEventListener('click', () => {
     showMoney();
     showDealerScore();
     showPlayerScore();
-    stayButton.setAttribute('disabled', true);
+    hitBtnOff();
+    stayBtnOff();
+    doubleBtnOff();
+    playBtnOn();
 })
 //---------------------->    BUY IN BUTTON
 buyButton.addEventListener('click', () => {
