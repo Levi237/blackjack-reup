@@ -21,6 +21,7 @@ div {
 .grid-header { 
     grid-area: header; 
     text-align: center;
+    padding: 0 10%;
 }
 .grid-left {
     grid-area: left;
@@ -32,6 +33,9 @@ div {
 }
 .grid-right {
     grid-area: right;
+    top: 0;
+    height: 100%;
+    position: relative;
 }
 .grid-footer {
     grid-area: footer;
@@ -39,7 +43,7 @@ div {
 .grid-container {
     width: 100%;
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: 140px auto 140px;
     grid-auto-rows: auto;
     justify-items: stretch;
     align-items: center;
@@ -76,7 +80,7 @@ div {
 /******************************* DISPLAY WINDOW COUNTER *******************************/
 .big-box {
     visibility: hidden;
-    position: absolute;
+    position: relative;
     right: 0;
     z-index: 100;
     border-radius: 5%;
@@ -122,7 +126,6 @@ div {
     cursor: pointer;
     outline: none;
     color: #000;
-
     border-radius: 225px; 
     box-shadow: 0 5px 5px 0 #000;
 }
@@ -137,11 +140,18 @@ div {
     border: 6px dashed rgb(78, 57, 6);
 }
 .double-scale {
-    transform: scale(.8);
+    visibility: hidden;
+    transform: scale(.5);
     float: right;
     position: relative;
     font-size: 36px;
+    margin: 20px -18px 0 0;
 }
+
+.gold.double-scale:hover {
+    transform: scale(.6)
+}
+
 .gold:hover {
     background-image: radial-gradient( rgb(109, 79, 8), rgb(253, 190, 44));
     background-color:rgb(190, 154, 59);
@@ -203,21 +213,33 @@ h3 {
     color: rgb(48, 0, 0);
     font-size: 60px;
     font-family: 'Berkshire Swash', Georgia, 'Times New Roman', Times, serif;
-    text-shadow:  10px 15px gold, .5); 
-    margin-top: 0;
+    text-shadow:  5px 2px 10px rgb(255, 215, 0, .6); 
+    /* margin: 0 auto 0 auto; */
+    /* width: 100%; */
+    /* text-align: center; */
 }
-
+h4 {
+    color: rgb(48, 0, 0);
+    font-size: 30px;
+    font-family: 'Berkshire Swash', Georgia, 'Times New Roman', Times, serif;    
+    display: block;
+    margin-block-start: 34px;
+    margin-block-end: 34px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
 /*******************************    ANIMATION   *******************************/
 .fade {
     text-align: center;
     -webkit-animation: fadein 5s; 
             animation: fadein 5s;
 }
-/* .fade2 {
+.fade2 {
     text-align: center;
-    -webkit-animation: fadein 15s; 
-            animation: fadein 15s;
-} */
+    -webkit-animation: fadein 9s; 
+            animation: fadein 9s;
+}
 @keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }

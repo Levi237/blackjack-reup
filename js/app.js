@@ -35,7 +35,7 @@ const getSum = (total, num) => {return total + num;}
 const playButton = document.getElementById('play-button');
 const hitButton = document.getElementById('hit-button');
 const splitButton = document.getElementById('split-button')  //--> change rule so dealer quits at 17
-const doubleButton = document.getElementById('double-button')  //--> Double Down
+const doubleButton = document.getElementById('doubleButton')  //--> Double Down
 // const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 const stayButton = document.getElementById('stay-button');
 const buyButton = document.getElementById('buy-button');
@@ -57,7 +57,7 @@ playButton.addEventListener('click', () => {
         displayDeal();
         showMoney();
         playerStartScore();
-        document.getElementById("dealer-score").innerText = dealer.hand[1].value + "+?";
+        document.getElementById("dealerScore").innerText = dealer.hand[1].value + "+?";
     } else {
         buyIn()
     }     
@@ -112,6 +112,8 @@ buyButton.addEventListener('click', () => {
 const windowOn = () => {
     let box = document.querySelector('.big-box');
     box.style.visibility = "visible";
+    let double = document.getElementById('doubleButton');
+    double.style.visibility = "visible";
 }
 
 const playBtnOn = () => {
@@ -205,7 +207,7 @@ const showPlayerScore = () => {
 }
 const showDealerScore = () => {
     let score = dealerFinalScore;
-    document.getElementById("dealer-score").innerText = score;
+    document.getElementById("dealerScore").innerText = score;
 }
 
 //---------------------->    CLEAR FIELD
