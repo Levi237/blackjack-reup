@@ -71,18 +71,21 @@ playButton.addEventListener('click', () => {
 })
 //---------------------->    DOUBLE DOWN BUTTON
 doubleButton.addEventListener('click', () => {
-    if (!playerSplitHand.length > 0){
-    player.chips -= 1;
-    } else {
+    console.log('double click')
+    // if (!playerSplitHand.length > 0){
+    // player.chips -= 1;
+    // } else {
         player.chips -= 1;
-    }
+    // }
     hitMe();
     displayPlayerCard();
-    cardReveal();
     playerHandValue();
+    cardReveal();
     dealerHandValue();
+    showDealerScore();
     dealerAI();
-    doubleDown(); // why doesn't this work?
+    dealerHandValue();
+    doubleDown(); 
     showMoney(); 
     showDealerScore();
     showPlayerScore();
@@ -145,7 +148,7 @@ const buttonsOn = () => {
     stayButton.removeAttribute('disabled');
     doubleButton.classList.add('gold');
     doubleButton.classList.remove('gray');
-    doubleButton.removeAttribute('disabled');
+    doubleButton.removeAttribute('disabled', false);
     hitButton.classList.add('gold');
     hitButton.classList.remove('gray');
     hitButton.removeAttribute('disabled');
@@ -361,12 +364,12 @@ const doubleDown = () => {
         } else if (playerFinalScore === dealerFinalScore){
             player.chips += 1;
         }
-            if (playerSplitScore <= 21 && playerSplitScore > dealerFinalScore || playerSplitScore <= 21 &&  dealerFinalScore > 21) {
-                player.chips += 3;
-            } else if (playerSplitScore === dealerFinalScore){
-                player.chips += 1;
-            } 
-    } else {
+    //         if (playerSplitScore <= 21 && playerSplitScore > dealerFinalScore || playerSplitScore <= 21 &&  dealerFinalScore > 21) {
+    //             player.chips += 3;
+    //         } else if (playerSplitScore === dealerFinalScore){
+    //             player.chips += 1;
+    //         } 
+    // } else {
         alert.innerText = "Not enough money";
     }
     callHand();
