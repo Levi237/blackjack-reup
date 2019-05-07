@@ -70,27 +70,37 @@ playButton.addEventListener('click', () => {
     }     
 })
 //---------------------->    DOUBLE DOWN BUTTON
+
+
+
 doubleButton.addEventListener('click', () => {
     console.log('double click')
+    if (player.chips > 0){
     // if (!playerSplitHand.length > 0){
     // player.chips -= 1;
     // } else {
         player.chips -= 1;
-    // }
-    hitMe();
-    displayPlayerCard();
-    playerHandValue();
-    cardReveal();
-    dealerHandValue();
-    showDealerScore();
-    dealerAI();
-    dealerHandValue();
-    doubleDown(); 
-    showMoney(); 
-    showDealerScore();
-    showPlayerScore();
-    buttonsOff();
-    playBtnOn();
+        // }
+        hitMe();
+        displayPlayerCard();
+        playerHandValue();
+        cardReveal();
+        dealerHandValue();
+        showDealerScore();
+        dealerAI();
+        dealerHandValue();
+        doubleDown(); 
+        showMoney(); 
+        showDealerScore();
+        showPlayerScore();
+        buttonsOff();
+        playBtnOn();
+    } else {
+        doubleButton.setAttribute('disabled', true);
+        doubleButton.classList.add('gray');
+        doubleButton.classList.remove('gold');
+        alert.innerText = "Not enough money";
+    }
 })
 //---------------------->    HIT BUTTON
 hitButton.addEventListener('click', () => {
@@ -120,6 +130,8 @@ stayButton.addEventListener('click', () => {
 buyButton.addEventListener('click', () => {
     player.chips += 10;
     showMoney();
+    buttonsOff();
+    playBtnOn();
     buyButton.style.visibility = "hidden";
 })
 //---------------------->    BUTTON ON/OFF SWITCHES
@@ -370,7 +382,7 @@ const doubleDown = () => {
     //             player.chips += 1;
     //         } 
     // } else {
-        alert.innerText = "Not enough money";
+        alert.innerText = "Not enough money";  // this isn't working
     }
     callHand();
 };
