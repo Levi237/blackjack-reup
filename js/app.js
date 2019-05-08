@@ -39,9 +39,9 @@ const getSum = (total, num) => {return total + num;}
 //---------------------->   BUTTONS
 const startButton = document.getElementById('start-button');
 const playButton = document.getElementById('play-button');
-const splitHitButton = document.getElementById('split-hit-button');
+// const splitHitButton = document.getElementById('split-hit-button');
 const hitButton = document.getElementById('hit-button');
-const splitButton = document.getElementById('split-button')  //--> change rule so dealer quits at 17
+// const splitButton = document.getElementById('split-button')  //--> change rule so dealer quits at 17
 const doubleButton = document.getElementById('doubleButton')  //--> Double Down
 // const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 const stayButton = document.getElementById('stay-button');
@@ -70,9 +70,6 @@ playButton.addEventListener('click', () => {
     }     
 })
 //---------------------->    DOUBLE DOWN BUTTON
-
-
-
 doubleButton.addEventListener('click', () => {
     console.log('double click')
     if (player.chips > 0){
@@ -93,12 +90,12 @@ doubleButton.addEventListener('click', () => {
         showMoney(); 
         showDealerScore();
         showPlayerScore();
-        buttonsOff();
+        hitOff();
+        stayOff();
+        doubleOff();
         playBtnOn();
     } else {
-        doubleButton.setAttribute('disabled', true);
-        doubleButton.classList.add('gray');
-        doubleButton.classList.remove('gold');
+        doubleOff();
         alert.innerText = "Not enough money";
     }
 })
@@ -123,14 +120,18 @@ stayButton.addEventListener('click', () => {
     showMoney();
     showDealerScore();
     showPlayerScore();
-    buttonsOff();
+    hitOff();
+    stayOff();
+    doubleOff();
     playBtnOn();
 })
 //---------------------->    BUY IN BUTTON
 buyButton.addEventListener('click', () => {
     player.chips += 10;
     showMoney();
-    buttonsOff();
+    hitOff();
+    stayOff();
+    doubleOff();
     playBtnOn();
     buyButton.style.visibility = "hidden";
 })
@@ -166,17 +167,24 @@ const buttonsOn = () => {
     hitButton.removeAttribute('disabled');
 }
 
-const buttonsOff = () => {
+// const buttonsOff = () => {
+const doubleOff = () => {
     doubleButton.setAttribute('disabled', true);
     doubleButton.classList.add('gray');
     doubleButton.classList.remove('gold');
+}
+const hitOff = () => {
     hitButton.setAttribute('disabled', true);
     hitButton.classList.add('gray');
     hitButton.classList.remove('gold');
+}
+const stayOff = () => {
     stayButton.setAttribute('disabled', true);
     stayButton.classList.add('gray');
     stayButton.classList.remove('gold');
 }
+
+
 //---------------------->    DEAL CARD VISUAL
 const displayDeal = () => {
     let blankPlayer = document.querySelector("#blankPlayer");
@@ -194,7 +202,9 @@ const displayDeal = () => {
             blankDealer.insertAdjacentHTML("beforebegin", `<element class="slide card ${dealer.hand[1].suit} r${dealer.hand[1].face}"></element>`);
         },1000);
         if (player.hand[0].value === 11 && player.hand[1].value === 10 || player.hand[1].value === 11 && player.hand[0].value === 10){
-            alert.innerText = "21 blackjack!";
+            doubleOff();
+            hitOff();
+            alert.innerText = "BlackJack!";
         }
 }
 
@@ -382,7 +392,7 @@ const doubleDown = () => {
     //             player.chips += 1;
     //         } 
     // } else {
-        alert.innerText = "Not enough money";  // this isn't working
+        // alert.innerText = "Not enough money";  // this isn't working
     }
     callHand();
 };
