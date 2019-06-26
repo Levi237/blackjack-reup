@@ -1,13 +1,12 @@
 //--> BLACK JACK GAME
 
 //--------------------------->BUGS
-// when there are 3 aces only two get counted as 1s, the last is still an 11
-// Does not stop at 0 with chips anymore
+// alert cannot seem to align correctly
 
 
 //-->   END GAME PSEUDOCODE
 //intervalTimer needed for dealer, how to break up each card draw?
-//opening page?
+//opening page
 //restart option
 
 // why is it that sometimes the card gets unshifted into the wrong place in the array?
@@ -37,12 +36,10 @@ const getSum = (total, num) => {return total + num;}
 
 
 //---------------------->   BUTTONS
-const startButton = document.getElementById('start-button');
+const startButton = document.getElementById('start-button'); // not hooked up yet
 const playButton = document.getElementById('play-button');
-// const splitHitButton = document.getElementById('split-hit-button');
 const hitButton = document.getElementById('hit-button');
-// const splitButton = document.getElementById('split-button')  //--> change rule so dealer quits at 17
-const doubleButton = document.getElementById('doubleButton')  //--> Double Down
+const doubleButton = document.getElementById('doubleButton');
 // const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 const stayButton = document.getElementById('stay-button');
 const buyButton = document.getElementById('buy-button');
@@ -73,11 +70,7 @@ playButton.addEventListener('click', () => {
 doubleButton.addEventListener('click', () => {
     console.log('double click')
     if (player.chips > 0){
-    // if (!playerSplitHand.length > 0){
-    // player.chips -= 1;
-    // } else {
         player.chips -= 1;
-        // }
         hitMe();
         displayPlayerCard();
         playerHandValue();
@@ -167,7 +160,6 @@ const buttonsOn = () => {
     hitButton.removeAttribute('disabled');
 }
 
-// const buttonsOff = () => {
 const doubleOff = () => {
     doubleButton.setAttribute('disabled', true);
     doubleButton.classList.add('gray');
@@ -183,8 +175,6 @@ const stayOff = () => {
     stayButton.classList.add('gray');
     stayButton.classList.remove('gold');
 }
-
-
 //---------------------->    DEAL CARD VISUAL
 const displayDeal = () => {
     let blankPlayer = document.querySelector("#blankPlayer");
@@ -251,7 +241,6 @@ const showDealerScore = () => {
 const clearField = () => {
     player.hand = [];
     dealer.hand = [];
-    // playerSplitHand = [];
     deck = [];
     shuffledDeck = [];
     player.round++;
@@ -316,8 +305,7 @@ const playerHandValue = () => {
     for (let i = 0; i < player.hand.length; i++){
         playerCall.push(player.hand[i].value);
     }
-
-        playerFinalScore = playerCall.reduce(getSum);
+    playerFinalScore = playerCall.reduce(getSum);
 
     for (let i = 0; i < player.hand.length; i++){
         if (player.hand[i].name == "Ace of spades" && playerFinalScore > 21) {
@@ -340,8 +328,7 @@ const dealerHandValue = () => {
     for (let d = 0; d < dealer.hand.length; d++){
         dealerCall.push(dealer.hand[d].value);
         }
-
-        dealerFinalScore = dealerCall.reduce(getSum);
+    dealerFinalScore = dealerCall.reduce(getSum);
 
     for (let i = 0; i < dealer.hand.length; i++){
         if (dealer.hand[i].name == "Ace of spades" && dealerFinalScore > 21) {
@@ -358,9 +345,8 @@ const dealerHandValue = () => {
         } 
     }
     if (dealerFinalScore > 21) { //
-        alert.innerText = "Dealer Bust"; //
-       stayButton.setAttribute('disabled', true); //
-       } //
+        alert.innerText = "Dealer Bust"; 
+       } 
 }
 //---------------------->    AI - DEALER HIT  -->  STAY button
 const cardReveal = () => document.getElementById("dealerDown").className = `card ${dealer.hand[0].suit} r${dealer.hand[0].face}`;
@@ -378,7 +364,6 @@ const  dealerAI = () => {
 }
 
 //---------------------->    DOUBLE DOWN
-// Still need to figure out how to get this working, goes into the negative instead of stopping the game
 const doubleDown = () => {  
     if (player.chips > 0) {
         if (playerFinalScore <= 21 && playerFinalScore > dealerFinalScore || playerFinalScore <= 21 &&  dealerFinalScore > 21) {
@@ -386,28 +371,9 @@ const doubleDown = () => {
         } else if (playerFinalScore === dealerFinalScore){
             player.chips += 1;
         }
-    //         if (playerSplitScore <= 21 && playerSplitScore > dealerFinalScore || playerSplitScore <= 21 &&  dealerFinalScore > 21) {
-    //             player.chips += 3;
-    //         } else if (playerSplitScore === dealerFinalScore){
-    //             player.chips += 1;
-    //         } 
-    // } else {
-        // alert.innerText = "Not enough money";  // this isn't working
     }
     callHand();
 };
-
-// const doubleDown = () => {  
-
-//     if (playerFinalScore <= 21 && playerFinalScore > dealerFinalScore || playerFinalScore <= 21 &&  dealerFinalScore > 21) {
-//         player.chips += 3;
-//     }
-//     if (playerFinalScore === dealerFinalScore){
-//         player.chips += 1;
-//     }
-//     callHand();
-// };
-
 //---------------------->    PLAY HAND  -->  STAY button
 const callHand = () => {
     if (playerFinalScore === 21) {
@@ -428,7 +394,6 @@ const callHand = () => {
     } else if (playerFinalScore < dealerFinalScore && dealerFinalScore <= 21) {
         alert.innerText = "House Wins";  
     }
-    //-------->  anything else need to go in here?
 };
 
 //---------------------->       BUY IN

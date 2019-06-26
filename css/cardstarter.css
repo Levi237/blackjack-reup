@@ -40,6 +40,7 @@
   text-indent: 100%;
   white-space: nowrap;
   overflow: hidden;
+  transition: all .5s;
   /* Default sizes for cards (size based off the font). */
   /* Optional styles for cards: borderless and drop shadow. */
   /* Not a card, but a card-shaped outline to represent a
