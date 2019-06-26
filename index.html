@@ -11,14 +11,10 @@
     <link rel="stylesheet" type="text/css" href="css/cardstarter.css">
 </head>
 <body>
-    <header>
-            <h1 id="sign" class="fade">BlackJack </h1>
-    </header>   
-
 <div class="grid-container">
-
+        
     <div class="grid-header">
-            
+        <h1 id="sign" class="fade">BlackJack </h1>
         <div class="big-box fade2">
             <div id="box-right" class="box">
                 <h2 id="chips">100</h2>
@@ -29,61 +25,49 @@
                 <h2>Round:</h2>
             </div>
         </div>
-
         <button id="doubleButton" class="double-scale gray fade2">2<small>x</small></button>
-
     </div>
+
     <div class="grid-left"></div>
 
     <div id="game-table" class="grid-main">
         <button id="buy-button" class="prompt">BUY $100</button>
-        <div id="table-cover">
-            
-                <h3 id="alert"></h3>
-            
+        <div id="table-cover"> 
+            <h3 id="alert"></h3>
         </div>
-        
-
-        
-            <div id="dealer-hand">
-                <element id="blankDealer"></element>
-                <element class="transitOpen fade card back-red"></element>
-                <element class="transitOpen fade card back-red"></element>
-                <element class="transitOpen fade card back-red"></element>
-                <element class="transitOpen fade card back-red"></element>
-                <element class="transitOpen fade card back-red"></element>
-                <element class="transitOpen fade card back-red"></element>
-            </div>
-       
-            <div id="player-hand">
-                <element id="blankPlayer"></element>
-                <element class="split transitOpen fade card back-red"></element>
-                <element class="split transitOpen fade card back-red"></element>
-                <element class="split transitOpen fade card back-red"></element>
-                <element class="split transitOpen fade card back-red"></element>
-                <element class="split transitOpen fade card back-red"></element>
-                <element class="split transitOpen fade card back-red"></element>
-            </div>
-        
+        <div id="dealer-hand">
+            <element id="blankDealer"></element>
+            <element class="transitOpen fade card back-red"></element>
+            <element class="transitOpen fade card back-red"></element>
+            <element class="transitOpen fade card back-red"></element>
+            <element class="transitOpen fade card back-red"></element>
+            <element class="transitOpen fade card back-red"></element>
+            <element class="transitOpen fade card back-red"></element>
+        </div>
+        <div id="player-hand">
+            <element id="blankPlayer"></element>
+            <element class="split transitOpen fade card back-red"></element>
+            <element class="split transitOpen fade card back-red"></element>
+            <element class="split transitOpen fade card back-red"></element>
+            <element class="split transitOpen fade card back-red"></element>
+            <element class="split transitOpen fade card back-red"></element>
+            <element class="split transitOpen fade card back-red"></element>
+        </div>
+    </div>
     
-    <footer>
+    <div class="grid-footer">
         <div id="button-holder">
             <button id="play-button" class="gold">PLAY</button>
-            
             <button id="hit-button" class="gray">HIT</button>
-            
             <button id="stay-button" class="gray">STAY</button>
-
         </div>
-    </footer>
-</div>
+    </div>
 
     <div class="grid-right">
         <div><h4 id="dealerScore">??</h4></div>
-            
         <div><h4 id="player-score"></h4></div>
     </div>
-</div>
 
+</div>
 </body>
 </html>

@@ -8,8 +8,8 @@ html {
 body {
     /* background-image: radial-gradient( rgb(11, 73, 11),  rgb(12, 90, 12), #000);
     background-size: cover; */
-    height: 600px;
-    width: 800px;
+    /* height: 600px; */
+    /* width: 800px; */
     margin: auto;
 }
 /* div {
@@ -19,31 +19,37 @@ body {
 
 /******************************* GRID CONTAINER *******************************/
 .grid-header { 
+    /* background-color: rgb(255, 0, 0, .5); */
     grid-area: header; 
     text-align: center;
     padding: 0 10%;
 }
 .grid-left {
+    /* background-color: rgb(0, 255, 0, .5); */
     grid-area: left;
     width: 100%;
 
 }
 .grid-main {
+    /* background-color: rgb(0, 0, 255, .5); */
     grid-area: main;
 }
 .grid-right {
+    /* background-color: rgb(0, 255, 255, .5); */
     grid-area: right;
     top: 0;
-    height: 100%;
+    /* height: 100%; */
     position: relative;
 }
 .grid-footer {
+    /* background-color: rgb(255, 0, 255, .5); */
     grid-area: footer;
 }
 .grid-container {
+    /* background-color: rgb(255, 255, 0, .5); */
     width: 100%;
     display: grid;
-    grid-template-columns: 140px auto 140px;
+    grid-template-columns: 10vw 80vw 10vw;
     grid-auto-rows: auto;
     justify-items: stretch;
     align-items: center;
@@ -56,21 +62,23 @@ body {
 
 /*------------------------------ GRID CONTAINER ------------------------------*/
 /*******************************    HANDS   *******************************/
-.dealer, .player{
-
-}
 #player-hand, #dealer-hand {
     height: 100px;
     width: auto;
     text-align: center;
 }
 
-
 /*------------------------------    HANDS   ------------------------------*/
 /******************************* ALERT *******************************/
 #alert {
     width: 100%;
-    float: left;
+    /* float: left; */
+    position: relative;
+    /* left: -500px; */
+    transition-timing-function: ease;
+    transition: transform 0.4s;
+    -webkit-animation: slide 0.5s forwards;
+    animation: slide 0.5s forwards;
 }
 
 #table-cover {
@@ -78,7 +86,7 @@ body {
     /* top: 1; */
     height: 40px;
     z-index: 500000000000;
-    width: 500px;
+    width: 80vw;
     /* float: left; */
     /* margin-top: 66px; */
     text-align: center;
@@ -208,6 +216,8 @@ h1 {
     font-family: 'Berkshire Swash', Georgia, 'Times New Roman', Times, serif;
     text-shadow: #000;
     margin: 6% 0 0 0;
+    margin-block-start: 0.67em;
+    margin-block-end: 0em;
 }
 h2 {
     display: block;
@@ -274,14 +284,6 @@ h4 {
     -webkit-animation: slide 0.5s forwards;
     animation: slide 0.5s forwards;
 }
-#alert {
-        position: relative;
-        /* left: -500px; */
-        transition-timing-function: ease;
-        transition: transform 0.4s;
-        -webkit-animation: slide 0.5s forwards;
-        animation: slide 0.5s forwards;
-    }
 
 @-webkit-keyframes slide {
     100% { top: 0; }
@@ -291,3 +293,39 @@ h4 {
     100% { top: 0; }
 }
 
+
+
+
+
+
+
+
+@media screen and (max-width: 600px) {
+    body {
+        width: 100vw;
+    }
+    .grid-container {
+        width: 100vw;
+        display: grid;
+        grid-template-columns: 100vw;
+        grid-auto-rows: auto;
+        justify-items: stretch;
+        align-items: center;
+      grid-template-areas:
+        ' header '
+        ' right '
+        ' main '
+        ' footer '
+        ' left ';
+         grid-gap: 0;
+    }
+    #sign {
+        width: 100vw;
+    }
+    #dealerScore {
+        text-align: center;
+    }
+    #sign {
+        font-size: 16vw
+    }
+}
