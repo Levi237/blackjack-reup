@@ -1,16 +1,5 @@
 //--> BLACK JACK GAME
 
-//--------------------------->BUGS
-// alert cannot seem to align correctly
-
-
-//-->   END GAME PSEUDOCODE
-//intervalTimer needed for dealer, how to break up each card draw?
-//opening page
-//restart option
-
-// why is it that sometimes the card gets unshifted into the wrong place in the array?
-
 //----------------------> CLASS OBJECT
 class Player {
     constructor(name){
@@ -36,11 +25,9 @@ const getSum = (total, num) => {return total + num;}
 
 
 //---------------------->   BUTTONS
-const startButton = document.getElementById('start-button'); // not hooked up yet
 const playButton = document.getElementById('play-button');
 const hitButton = document.getElementById('hit-button');
 const doubleButton = document.getElementById('doubleButton');
-// const restartButton = document.getElementById('restart-button')  //--> Restart or Reset
 const stayButton = document.getElementById('stay-button');
 const buyButton = document.getElementById('buy-button');
 
@@ -106,9 +93,7 @@ stayButton.addEventListener('click', () => {
     playerHandValue();
     dealerHandValue();
     cardReveal();
-    // setTimeout(function() {
     dealerAI();
-    // },200);
     callHand();
     showMoney();
     showDealerScore();
