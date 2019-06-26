@@ -15,6 +15,6 @@
 
 <strong>Technologies Used:</strong><br/>
 Javascript<br/>
-Vanilla Js<br/>
+VanillaJS<br/>
 HTML5<br/>
 CSS3<br/>
